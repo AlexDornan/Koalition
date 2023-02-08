@@ -20,6 +20,10 @@ namespace KoalitionServer.Data
 
         public DbSet<Message> Messages { get; set; }
         public DbSet<User> Users { get; set; }
+        public DbSet<GroupChat> Chats{ get; set; }
+        public DbSet<PrivateChat> PrivateChats { get; set; }
+        public DbSet<GroupChatUserMTM> GroupChatUserMTM { get; set; }
+        public DbSet<PrivateChatUserMTM> PrivateChatUserMTM { get; set; }
         public AppDbContext() => Database.EnsureCreated();
     }
 }
