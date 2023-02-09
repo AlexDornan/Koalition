@@ -5,7 +5,7 @@ namespace KoalitionServer.Hubs
 {
     public class ChatHub : Hub
     {
-        public async Task SendMessage(Message message)
+        public async Task SendMessage(PrivateMessage message)
         {
             await Clients.All.SendAsync("ReceiveMessage", message);
         }

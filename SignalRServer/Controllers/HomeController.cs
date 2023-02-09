@@ -18,7 +18,7 @@ namespace KoalitionServer.Controllers
             _userManager = userManager;
         }
 
-        public async Task<IActionResult> Index()
+        /*public async Task<IActionResult> Index()
         {
             var currentUser = await _userManager.GetUserAsync(User);
             if (User.Identity.IsAuthenticated)
@@ -27,20 +27,21 @@ namespace KoalitionServer.Controllers
             }
             var messages = await _context.Messages.ToListAsync();
             return View();
-        }
+        }*/
 
-        public async Task<IActionResult> Create(Message message)
+        /*public async Task<IActionResult> Create(Message message)
         {
             if (ModelState.IsValid)
             {
+                message.UserName = User.Identity.Name;
                 var sender = await _userManager.GetUserAsync(User);
-                message.UserID = sender.Id;
+                message.UserId = User.UserId;
                 await _context.Messages.AddAsync(message);
                 await _context.SaveChangesAsync();
                 return Ok();
             }
             return BadRequest();
-        }
+        }*/
 
         public IActionResult Privacy()
         {
@@ -55,7 +56,7 @@ namespace KoalitionServer.Controllers
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            return View(new ErrorViewModel { RequestId = System.Diagnostics.Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
     }
 }

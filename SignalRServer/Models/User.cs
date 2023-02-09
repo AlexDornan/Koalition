@@ -6,7 +6,7 @@ namespace KoalitionServer.Models
 {
     public class User : IdentityUser
     {
-        public string UserID { get; set; }
+        public int UserId { get; set; }
         [Required]
         public string UserName { get; set; }
         public string Name { get; set; }
@@ -17,11 +17,13 @@ namespace KoalitionServer.Models
 
         public User() 
         { 
-            Messages = new HashSet<Message>();
+            PrivateMessages = new HashSet<PrivateMessage>();
+            GroupMessages = new HashSet<GroupMessage>();
         }
 
         //one user to many messages
-        public virtual ICollection<Message> Messages { get; set; }
+        public virtual ICollection<PrivateMessage> PrivateMessages { get; set; }
+        public virtual ICollection<GroupMessage> GroupMessages { get; set; }
         public ICollection<GroupChat> GroupChats { get; set; }
         public ICollection<PrivateChat> PrivateChats { get; set; }
     }
