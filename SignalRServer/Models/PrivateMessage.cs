@@ -9,7 +9,6 @@ namespace KoalitionServer.Models
         public string Text { get; set; }
         public DateTime Time { get; set; }
         public int PrivateChatId { get; set; }
-        //public int UserId { get; set; }
         public PrivateMessage()
         {
             Time = DateTime.Now;

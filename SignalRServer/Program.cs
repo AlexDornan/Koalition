@@ -1,65 +1,94 @@
 using KoalitionServer.Data;
-using KoalitionServer.Hubs;
+//using KoalitionServer.Hubs;
 using KoalitionServer.Models;
-using Microsoft.EntityFrameworkCore;
+using KoalitionServer.Services;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
-using Swashbuckle.AspNetCore.Swagger;
-using Microsoft.AspNetCore.Builder;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
+using Swashbuckle.AspNetCore.Filters;
+using System.Reflection;
+using System.Text;
+using MediatR;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
-
-builder.Services.AddSignalR();
-
+builder.Services.AddControllers();
+//builder.Services.AddSignalR();
+builder.Services.AddMediatR(typeof(Program));
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddScoped<UserService>();
 builder.Services.AddDbContext<AppDbContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
 
-builder.Services.AddDefaultIdentity<User>(options => options.SignIn.RequireConfirmedAccount = true)
-                //.AddDefaultUI(UIFramework.Bootstrap4)
-                .AddEntityFrameworkStores<AppDbContext>();
 
-builder.Services.AddSwaggerGen();
+builder.Services.AddScoped<IPasswordHasher<User>, PasswordHasher<User>>();
+builder.Services.AddSwaggerGen(options =>
+{
+    options.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme
+    {
+        Description = "Standard Authorization header using the Bearer scheme (\"bearer {token}\")",
+        In = ParameterLocation.Header,
+        Name = "Authorization",
+        Type = SecuritySchemeType.ApiKey
+    });
+
+    options.OperationFilter<SecurityRequirementsOperationFilter>();
+});
+
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+    {
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuerSigningKey = true,
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8
+                .GetBytes(builder.Configuration.GetSection("Jwt:Key").Value)),
+            ValidateIssuer = false,
+            ValidateAudience = false
+        };
+    });
+
+builder.Services.AddCors(options => options.AddPolicy(name: "NgOrigins",
+    policy =>
+    {
+        policy.WithOrigins("http://localhost:7127").AllowAnyMethod().AllowAnyHeader();
+    }));
+
+
 
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
-    app.UseExceptionHandler("/Home/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-    app.UseHsts();
-
-    app.UseHttpsRedirection();
-
     app.UseSwagger();
     app.UseSwaggerUI();
 }
 
-
-app.UseStaticFiles();
-
-app.UseRouting();
-
+app.UseCors("NgOrigins");
+app.UseHttpsRedirection();
+app.UseAuthentication();
 app.UseAuthorization();
+//app.MapHub<ChatHub>("/chatHub");
 
-app.MapHub<ChatHub>("/chatHub");
-
-app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller=Home}/{action=ChatDemo}/{id?}");
-
+app.MapControllers();
 app.UseSwagger(c =>
-    {
-        c.RouteTemplate = "swagger/{documentName}/swagger.json";
-    });
-app.UseSwaggerUI(x =>
-    {
-        x.SwaggerEndpoint("/swagger/v1/swagger.json", "Koalition API");
-    });
-//app.UseOpenApi();
-//app.UseSwaggerUi3();
+{
+    c.RouteTemplate = "swagger/{documentName}/swagger.json";
+});
+app.UseSwaggerUI(options =>
+{
+    options.SwaggerEndpoint("/swagger/v1/swagger.json", "Koalition API");
+    options.RoutePrefix = string.Empty;
+});
 app.Run();

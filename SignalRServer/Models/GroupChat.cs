@@ -7,5 +7,6 @@
         public string Description { get; set; }
         public ICollection<PrivateMessage> Messages { get; set; }
         public ICollection<User> Users { get; set; }
+        public bool IsOwner { get; set; }
     }
 }

@@ -7,15 +7,45 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="6.0.13" />
-    <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="6.0.13" />
+    <Compile Remove="Constants\**" />
+    <Compile Remove="Hubs\**" />
+    <Compile Remove="Infrastructure\**" />
+    <Content Remove="Constants\**" />
+    <Content Remove="Hubs\**" />
+    <Content Remove="Infrastructure\**" />
+    <EmbeddedResource Remove="Constants\**" />
+    <EmbeddedResource Remove="Hubs\**" />
+    <EmbeddedResource Remove="Infrastructure\**" />
+    <None Remove="Constants\**" />
+    <None Remove="Hubs\**" />
+    <None Remove="Infrastructure\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="Models\Activity.cs" />
+    <Compile Remove="Models\GroupChatUser.cs" />
+    <Compile Remove="Models\GroupChatUserMTM.cs" />
+    <Compile Remove="Models\PrivateChatUser.cs" />
+    <Compile Remove="Models\PrivateChatUserMTM.cs" />
+    <Compile Remove="Models\Session.cs" />
+    <Compile Remove="Requests\UserRequests\ReadCurrentUserRequest.cs" />
+    <Compile Remove="Services\CurrentUserAccessor.cs" />
+    <Compile Remove="Services\ICurrentUserAccessor.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MediatR" Version="11.1.0" />
+    <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="11.1.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.13" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="6.0.13" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.13" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.13">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="6.0.8" />
+    <PackageReference Include="Microsoft.Extensions.Identity.Core" Version="6.0.13" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="6.0.11" />
+    <PackageReference Include="Swashbuckle.AspNetCore.Filters" Version="6.1.0" />
     <PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="6.5.0" />
     <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="6.5.0" />
     <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="6.5.0" />
