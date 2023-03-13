@@ -6,7 +6,7 @@ using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
-namespace KoalitionServer.Services
+namespace KoalitionServer.Services.UserServices
 {
     public class CurrentUserService : IRequestHandler<CurrentUserRequestDTO, CurrentUserResponseDTO>
     {

@@ -7,7 +7,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 
-namespace KoalitionServer.Services
+namespace KoalitionServer.Services.UserServices
 {
     public class UserService
     {
@@ -24,7 +24,7 @@ namespace KoalitionServer.Services
 
         public async Task<User> RegisterUser(RegistrationRequest regRequest)
         {
-            if(await _context.Users.AnyAsync(u  => u.Email == regRequest.Email))
+            if (await _context.Users.AnyAsync(u => u.Email == regRequest.Email))
             {
                 throw new ArgumentException("User with this email already exist!");
             }
@@ -48,7 +48,7 @@ namespace KoalitionServer.Services
             var user = await _context.Users.FirstOrDefaultAsync(x => x.Email == authRequest.Email);
             if (user == null)
             {
-                throw new ArgumentException("Invalid email!" );
+                throw new ArgumentException("Invalid email!");
             }
 
 

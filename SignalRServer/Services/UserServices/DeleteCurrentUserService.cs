@@ -3,7 +3,7 @@ using KoalitionServer.Requests.UserRequests;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace KoalitionServer.Services
+namespace KoalitionServer.Services.UserServices
 {
     public class DeleteCurrentUserService : IRequestHandler<DeleteCurrentUserRequest, bool>
     {

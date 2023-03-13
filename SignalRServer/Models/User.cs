@@ -24,7 +24,7 @@ namespace KoalitionServer.Models
         //one user to many messages
         public ICollection<PrivateMessage> PrivateMessages { get; set; }
         public ICollection<GroupMessage> GroupMessages { get; set; }
-        public ICollection<GroupChat> GroupChats { get; set; }
+        public ICollection<GroupChatsToUsers> GroupChatsToUsers { get; set; }
         public ICollection<PrivateChat> PrivateChats { get; set; }
     }
 }

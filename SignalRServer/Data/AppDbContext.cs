@@ -13,5 +13,26 @@ namespace KoalitionServer.Data
         public DbSet<User> Users { get; set; }
         public DbSet<GroupChat> GroupChats{ get; set; }
         public DbSet<PrivateChat> PrivateChats { get; set; }
+        public DbSet<GroupChatsToUsers> GroupChatsToUsers { get; set;}
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<GroupChatsToUsers>()
+                .HasKey(gcu => new { gcu.GroupChatId, gcu.UserId });
+
+            modelBuilder.Entity<GroupChatsToUsers>()
+                .HasOne(gcu => gcu.GroupChat)
+                .WithMany(g => g.GroupChatsToUsers)
+                .HasForeignKey(gcu => gcu.GroupChatId);
+
+            modelBuilder.Entity<GroupChatsToUsers>()
+                .HasOne(gcu => gcu.User)
+                .WithMany(u => u.GroupChatsToUsers)
+                .HasForeignKey(gcu => gcu.UserId);
+
+            modelBuilder.Entity<GroupChatsToUsers>()
+                .Property(gcu => gcu.IsOwner)
+                .IsRequired();
+        }
     }
 }

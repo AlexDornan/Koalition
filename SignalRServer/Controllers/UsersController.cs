@@ -1,23 +1,13 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using KoalitionServer.Requests.UserRequests;
-using KoalitionServer.Services;
 using KoalitionServer.Models;
 using Microsoft.AspNetCore.Authorization;
 using KoalitionServer.Responses.UserResponses;
 using System.Security.Claims;
-using System.Diagnostics;
-using KoalitionServer.Migrations;
-using Microsoft.Extensions.Configuration;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Identity;
-using System.Net.Http.Headers;
-using System.Text.Json;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.VisualBasic;
-using System.IdentityModel.Tokens.Jwt;
-using System.Net;
 using KoalitionServer.Data;
 using MediatR;
+using KoalitionServer.Services.UserServices;
 
 namespace KoalitionServer.Controllers
 {

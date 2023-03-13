@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace KoalitionServer.Migrations
 {
-    public partial class no_identity : Migration
+    public partial class GroupChatsToUsers3 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -16,8 +16,7 @@ namespace KoalitionServer.Migrations
                     GroupChatId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    IsOwner = table.Column<bool>(type: "bit", nullable: false)
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -46,8 +45,8 @@ namespace KoalitionServer.Migrations
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Password = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Online = table.Column<bool>(type: "bit", nullable: false),
-                    LastRescent = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    Online = table.Column<bool>(type: "bit", nullable: true),
+                    LastRescent = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -55,24 +54,25 @@ namespace KoalitionServer.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "GroupChatUser",
+                name: "GroupChatsToUsers",
                 columns: table => new
                 {
-                    GroupChatsGroupChatId = table.Column<int>(type: "int", nullable: false),
-                    UsersUserId = table.Column<int>(type: "int", nullable: false)
+                    GroupChatId = table.Column<int>(type: "int", nullable: false),
+                    UserId = table.Column<int>(type: "int", nullable: false),
+                    IsOwner = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_GroupChatUser", x => new { x.GroupChatsGroupChatId, x.UsersUserId });
+                    table.PrimaryKey("PK_GroupChatsToUsers", x => new { x.GroupChatId, x.UserId });
                     table.ForeignKey(
-                        name: "FK_GroupChatUser_GroupChats_GroupChatsGroupChatId",
-                        column: x => x.GroupChatsGroupChatId,
+                        name: "FK_GroupChatsToUsers_GroupChats_GroupChatId",
+                        column: x => x.GroupChatId,
                         principalTable: "GroupChats",
                         principalColumn: "GroupChatId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_GroupChatUser_Users_UsersUserId",
-                        column: x => x.UsersUserId,
+                        name: "FK_GroupChatsToUsers_Users_UserId",
+                        column: x => x.UserId,
                         principalTable: "Users",
                         principalColumn: "UserId",
                         onDelete: ReferentialAction.Cascade);
@@ -92,6 +92,12 @@ namespace KoalitionServer.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_GroupMessages", x => x.GroupMessageId);
+                    table.ForeignKey(
+                        name: "FK_GroupMessages_GroupChats_GroupChatId",
+                        column: x => x.GroupChatId,
+                        principalTable: "GroupChats",
+                        principalColumn: "GroupChatId",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_GroupMessages_Users_UserId",
                         column: x => x.UserId,
@@ -132,17 +138,11 @@ namespace KoalitionServer.Migrations
                     Text = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Time = table.Column<DateTime>(type: "datetime2", nullable: false),
                     PrivateChatId = table.Column<int>(type: "int", nullable: false),
-                    GroupChatId = table.Column<int>(type: "int", nullable: true),
                     UserId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_PrivateMessages", x => x.PrivateMessageId);
-                    table.ForeignKey(
-                        name: "FK_PrivateMessages_GroupChats_GroupChatId",
-                        column: x => x.GroupChatId,
-                        principalTable: "GroupChats",
-                        principalColumn: "GroupChatId");
                     table.ForeignKey(
                         name: "FK_PrivateMessages_PrivateChats_PrivateChatId",
                         column: x => x.PrivateChatId,
@@ -157,9 +157,14 @@ namespace KoalitionServer.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_GroupChatUser_UsersUserId",
-                table: "GroupChatUser",
-                column: "UsersUserId");
+                name: "IX_GroupChatsToUsers_UserId",
+                table: "GroupChatsToUsers",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_GroupMessages_GroupChatId",
+                table: "GroupMessages",
+                column: "GroupChatId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_GroupMessages_UserId",
@@ -170,11 +175,6 @@ namespace KoalitionServer.Migrations
                 name: "IX_PrivateChatUser_UsersUserId",
                 table: "PrivateChatUser",
                 column: "UsersUserId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_PrivateMessages_GroupChatId",
-                table: "PrivateMessages",
-                column: "GroupChatId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_PrivateMessages_PrivateChatId",
@@ -190,7 +190,7 @@ namespace KoalitionServer.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "GroupChatUser");
+                name: "GroupChatsToUsers");
 
             migrationBuilder.DropTable(
                 name: "GroupMessages");

@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace KoalitionServer.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20230218105312_no_identity")]
-    partial class no_identity
+    [Migration("20230313102744_mtmNoLogin")]
+    partial class mtmNoLogin
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -23,21 +23,6 @@ namespace KoalitionServer.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
-
-            modelBuilder.Entity("GroupChatUser", b =>
-                {
-                    b.Property<int>("GroupChatsGroupChatId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("UsersUserId")
-                        .HasColumnType("int");
-
-                    b.HasKey("GroupChatsGroupChatId", "UsersUserId");
-
-                    b.HasIndex("UsersUserId");
-
-                    b.ToTable("GroupChatUser");
-                });
 
             modelBuilder.Entity("KoalitionServer.Models.GroupChat", b =>
                 {
@@ -51,9 +36,6 @@ namespace KoalitionServer.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("IsOwner")
-                        .HasColumnType("bit");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -61,6 +43,24 @@ namespace KoalitionServer.Migrations
                     b.HasKey("GroupChatId");
 
                     b.ToTable("GroupChats");
+                });
+
+            modelBuilder.Entity("KoalitionServer.Models.GroupChatsToUsers", b =>
+                {
+                    b.Property<int>("GroupChatId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsOwner")
+                        .HasColumnType("bit");
+
+                    b.HasKey("GroupChatId", "UserId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("GroupChatsToUsers");
                 });
 
             modelBuilder.Entity("KoalitionServer.Models.GroupMessage", b =>
@@ -85,6 +85,8 @@ namespace KoalitionServer.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("GroupMessageId");
+
+                    b.HasIndex("GroupChatId");
 
                     b.HasIndex("UserId");
 
@@ -112,9 +114,6 @@ namespace KoalitionServer.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PrivateMessageId"), 1L, 1);
 
-                    b.Property<int?>("GroupChatId")
-                        .HasColumnType("int");
-
                     b.Property<int>("PrivateChatId")
                         .HasColumnType("int");
 
@@ -129,8 +128,6 @@ namespace KoalitionServer.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("PrivateMessageId");
-
-                    b.HasIndex("GroupChatId");
 
                     b.HasIndex("PrivateChatId");
 
@@ -151,7 +148,7 @@ namespace KoalitionServer.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("LastRescent")
+                    b.Property<DateTime?>("LastRescent")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Login")
@@ -162,7 +159,7 @@ namespace KoalitionServer.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("Online")
+                    b.Property<bool?>("Online")
                         .HasColumnType("bit");
 
                     b.Property<string>("Password")
@@ -189,23 +186,33 @@ namespace KoalitionServer.Migrations
                     b.ToTable("PrivateChatUser");
                 });
 
-            modelBuilder.Entity("GroupChatUser", b =>
+            modelBuilder.Entity("KoalitionServer.Models.GroupChatsToUsers", b =>
                 {
-                    b.HasOne("KoalitionServer.Models.GroupChat", null)
-                        .WithMany()
-                        .HasForeignKey("GroupChatsGroupChatId")
+                    b.HasOne("KoalitionServer.Models.GroupChat", "GroupChat")
+                        .WithMany("GroupChatsToUsers")
+                        .HasForeignKey("GroupChatId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("KoalitionServer.Models.User", null)
-                        .WithMany()
-                        .HasForeignKey("UsersUserId")
+                    b.HasOne("KoalitionServer.Models.User", "User")
+                        .WithMany("GroupChatsToUsers")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("GroupChat");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("KoalitionServer.Models.GroupMessage", b =>
                 {
+                    b.HasOne("KoalitionServer.Models.GroupChat", null)
+                        .WithMany("Messages")
+                        .HasForeignKey("GroupChatId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("KoalitionServer.Models.User", null)
                         .WithMany("GroupMessages")
                         .HasForeignKey("UserId");
@@ -213,10 +220,6 @@ namespace KoalitionServer.Migrations
 
             modelBuilder.Entity("KoalitionServer.Models.PrivateMessage", b =>
                 {
-                    b.HasOne("KoalitionServer.Models.GroupChat", null)
-                        .WithMany("Messages")
-                        .HasForeignKey("GroupChatId");
-
                     b.HasOne("KoalitionServer.Models.PrivateChat", null)
                         .WithMany("Messages")
                         .HasForeignKey("PrivateChatId")
@@ -245,6 +248,8 @@ namespace KoalitionServer.Migrations
 
             modelBuilder.Entity("KoalitionServer.Models.GroupChat", b =>
                 {
+                    b.Navigation("GroupChatsToUsers");
+
                     b.Navigation("Messages");
                 });
 
@@ -255,6 +260,8 @@ namespace KoalitionServer.Migrations
 
             modelBuilder.Entity("KoalitionServer.Models.User", b =>
                 {
+                    b.Navigation("GroupChatsToUsers");
+
                     b.Navigation("GroupMessages");
 
                     b.Navigation("PrivateMessages");

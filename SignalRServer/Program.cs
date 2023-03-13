@@ -1,19 +1,16 @@
 using KoalitionServer.Data;
 //using KoalitionServer.Hubs;
 using KoalitionServer.Models;
-using KoalitionServer.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.Filters;
-using System.Reflection;
 using System.Text;
 using MediatR;
+using KoalitionServer.Services.UserServices;
+using KoalitionServer.Services.GroupChatServices;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -25,6 +22,10 @@ builder.Services.AddMediatR(typeof(Program));
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddScoped<UserService>();
+builder.Services.AddScoped<CreateGroupChatService>();
+builder.Services.AddScoped<GetCurrentUserGroupChatsService>();
+builder.Services.AddScoped<AddUserToGroupChatService>();
+builder.Services.AddScoped<DeleteGroupChatorUserService>();
 builder.Services.AddDbContext<AppDbContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));

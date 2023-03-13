@@ -4,13 +4,13 @@
 
 namespace KoalitionServer.Migrations
 {
-    public partial class token_again : Migration
+    public partial class mtmlogin : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AddColumn<string>(
-                name: "Token",
-                table: "Users",
+                name: "Login",
+                table: "GroupChatsToUsers",
                 type: "nvarchar(max)",
                 nullable: false,
                 defaultValue: "");
@@ -19,8 +19,8 @@ namespace KoalitionServer.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropColumn(
-                name: "Token",
-                table: "Users");
+                name: "Login",
+                table: "GroupChatsToUsers");
         }
     }
 }
