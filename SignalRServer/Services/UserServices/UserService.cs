@@ -67,6 +67,7 @@ namespace KoalitionServer.Services.UserServices
         {
             List<Claim> claims = new List<Claim>
             {
+                new Claim(ClaimTypes.NameIdentifier, user.UserId.ToString()),
                 new Claim(ClaimTypes.Name, user.Login),
                 new Claim(ClaimTypes.Role, "Admin")
             };

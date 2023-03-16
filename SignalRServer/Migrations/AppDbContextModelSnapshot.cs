@@ -79,7 +79,7 @@ namespace KoalitionServer.Migrations
                     b.Property<DateTime>("Time")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("UserId")
+                    b.Property<int>("UserId")
                         .HasColumnType("int");
 
                     b.HasKey("GroupMessageId");
@@ -213,7 +213,9 @@ namespace KoalitionServer.Migrations
 
                     b.HasOne("KoalitionServer.Models.User", null)
                         .WithMany("GroupMessages")
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("KoalitionServer.Models.PrivateMessage", b =>

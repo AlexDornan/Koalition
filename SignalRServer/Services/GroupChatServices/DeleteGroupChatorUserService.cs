@@ -1,6 +1,4 @@
 ﻿using KoalitionServer.Data;
-using KoalitionServer.Models;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
 
@@ -39,7 +37,7 @@ namespace KoalitionServer.Services.GroupChatServices
             await _context.SaveChangesAsync();
         }
 
-        public async Task<bool> DeleteGroupChatMemberAsync(int groupChatId, int userId)
+        public async Task<bool> DeleteGroupChatMemberAsync(int groupChatId, int userId, ClaimsPrincipal user)
         {
             var groupChat = await _context.GroupChats
                 .Include(gc => gc.GroupChatsToUsers)
@@ -51,14 +49,13 @@ namespace KoalitionServer.Services.GroupChatServices
                 return false;
             }
 
-            //что за дебильное исключение ты мне кидаешь??
-            /*var isOwner = groupChat.GroupChatsToUsers
+            var isOwner = groupChat.GroupChatsToUsers
                 .FirstOrDefault(gtu => gtu.User.Login == user.FindFirst(ClaimTypes.Name).Value && gtu.IsOwner);
 
             if (isOwner == null)
             {
                 throw new Exception("You are not authorized to delete this group chat");
-            }*/
+            }
 
             var userToDelete = await _context.Users.FirstOrDefaultAsync(u => u.UserId == userId);
 

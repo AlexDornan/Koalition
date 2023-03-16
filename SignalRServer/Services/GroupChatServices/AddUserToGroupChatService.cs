@@ -3,10 +3,6 @@ using KoalitionServer.Models;
 using KoalitionServer.Requests.GroupChatRequests;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using System.Linq;
-using System.Security.Claims;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace KoalitionServer.Services.GroupChatServices
 {

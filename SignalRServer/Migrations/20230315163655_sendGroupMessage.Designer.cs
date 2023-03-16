@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace KoalitionServer.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20230310162042_GroupChatsToUsers3")]
-    partial class GroupChatsToUsers3
+    [Migration("20230315163655_sendGroupMessage")]
+    partial class sendGroupMessage
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -81,7 +81,7 @@ namespace KoalitionServer.Migrations
                     b.Property<DateTime>("Time")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("UserId")
+                    b.Property<int>("UserId")
                         .HasColumnType("int");
 
                     b.HasKey("GroupMessageId");
@@ -215,7 +215,9 @@ namespace KoalitionServer.Migrations
 
                     b.HasOne("KoalitionServer.Models.User", null)
                         .WithMany("GroupMessages")
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("KoalitionServer.Models.PrivateMessage", b =>

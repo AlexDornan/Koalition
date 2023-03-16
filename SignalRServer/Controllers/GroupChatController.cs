@@ -1,15 +1,8 @@
-﻿using KoalitionServer.Data;
-using KoalitionServer.Models;
-using KoalitionServer.Requests.GroupChatRequests;
+﻿using KoalitionServer.Requests.GroupChatRequests;
 using KoalitionServer.Services.GroupChatServices;
-using KoalitionServer.Services.UserServices;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using System.Text.Json.Serialization;
-using System.Text.Json;
-using System.Security.Claims;
 
 namespace KoalitionServer.Controllers
 {
@@ -18,16 +11,12 @@ namespace KoalitionServer.Controllers
     public class GroupChatController : ControllerBase
     {
         private readonly IMediator _mediator;
-        private readonly CreateGroupChatService _createGroupChatService;
-        private readonly AppDbContext _context;
         private readonly GetCurrentUserGroupChatsService _getCurrentUserGroupChatsService;
         private readonly DeleteGroupChatorUserService _deleteGroupChatorUserService;
 
-        public GroupChatController(IMediator mediator, CreateGroupChatService createGroupChatService, AppDbContext appDbContext, GetCurrentUserGroupChatsService getAllGroupChatsService, DeleteGroupChatorUserService deleteGroupChatorUserService)
+        public GroupChatController(IMediator mediator, GetCurrentUserGroupChatsService getAllGroupChatsService, DeleteGroupChatorUserService deleteGroupChatorUserService)
         {
             _mediator = mediator;
-            _createGroupChatService = createGroupChatService;
-            _context = appDbContext;
             _getCurrentUserGroupChatsService = getAllGroupChatsService;
             _deleteGroupChatorUserService = deleteGroupChatorUserService;
         }
@@ -41,27 +30,19 @@ namespace KoalitionServer.Controllers
         }
         
         [HttpPost("adduser")]
-        //[Authorize]
+        [Authorize]
         public async Task<ActionResult<bool>> AddUserToGroupChat(AddUserToGroupChatRequest request)
         {
             var result = await _mediator.Send(request);
             return result;
         }
 
-        [HttpGet("getUserChats")]
-        public async Task<IActionResult> GetGroupChats()
+        [HttpGet]
+        [Authorize]
+        public async Task<IActionResult> GetCurrentUserGroupChats()
         {
-            var groupChats = await _getCurrentUserGroupChatsService.GetCurrentUserGroupChats();
-
-            var options = new JsonSerializerOptions
-            {
-                ReferenceHandler = ReferenceHandler.Preserve,
-                PropertyNamingPolicy = JsonNamingPolicy.CamelCase
-            };
-
-            var serializedGroupChats = JsonSerializer.Serialize(groupChats, options);
-
-            return Ok(serializedGroupChats);
+            var groupChatDtos = await _getCurrentUserGroupChatsService.GetCurrentUserGroupChats();
+            return Ok(groupChatDtos);
         }
 
         [HttpDelete("{groupName}")]
@@ -72,10 +53,11 @@ namespace KoalitionServer.Controllers
             return NoContent();
         }
 
-        [HttpDelete]
+        [HttpDelete("deleteUserFromChat")]
+        [Authorize]
         public async Task<IActionResult> DeleteGroupChatMember(int groupChatId, int userId)
         {
-            var deleted = await _deleteGroupChatorUserService.DeleteGroupChatMemberAsync(groupChatId, userId);
+            var deleted = await _deleteGroupChatorUserService.DeleteGroupChatMemberAsync(groupChatId, userId, User);
             if (!deleted)
             {
                 return NotFound();

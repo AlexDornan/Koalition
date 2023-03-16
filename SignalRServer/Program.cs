@@ -11,6 +11,7 @@ using System.Text;
 using MediatR;
 using KoalitionServer.Services.UserServices;
 using KoalitionServer.Services.GroupChatServices;
+using KoalitionServer.Services.GroupMessagesServices;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -26,9 +27,11 @@ builder.Services.AddScoped<CreateGroupChatService>();
 builder.Services.AddScoped<GetCurrentUserGroupChatsService>();
 builder.Services.AddScoped<AddUserToGroupChatService>();
 builder.Services.AddScoped<DeleteGroupChatorUserService>();
+builder.Services.AddScoped<SendGroupMessageService>();
 builder.Services.AddDbContext<AppDbContext>(options =>
 {
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
+    .EnableSensitiveDataLogging();
 });
 
 
