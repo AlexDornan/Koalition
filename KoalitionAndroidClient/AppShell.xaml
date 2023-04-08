@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Shell
+    x:Class="KoalitionAndroidClient.AppShell"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:local="clr-namespace:KoalitionAndroidClient"
+    xmlns:models="clr-namespace:KoalitionAndroidClient.Models"
+    xmlns:menuPages="clr-namespace:KoalitionAndroidClient.Views.Menu"
+    xmlns:startupPages="clr-namespace:KoalitionAndroidClient.Views.Startup">
+
+    <ShellContent
+        Title="Login Page" FlyoutItemIsVisible="False" Shell.FlyoutBehavior="Disabled"
+        ContentTemplate="{DataTemplate startupPages:LoginPage}"
+        Route="LoginPage" />
+
+    <ShellContent
+    Title="Menu Page"
+    ContentTemplate="{DataTemplate menuPages:MenuPage}"
+    Route="MenuPage" />
+
+
+    <Shell.FlyoutFooter>
+        <StackLayout Padding="20">
+            <Button Text="Sign Out" Command="{Binding SignOutCommand}" />
+        </StackLayout>
+    </Shell.FlyoutFooter>
+
+</Shell>

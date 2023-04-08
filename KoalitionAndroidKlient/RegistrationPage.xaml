@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="KoalitionAndoidClient.Pages.RegistrationPage">
+    <StackLayout>
+        <Entry x:Name="LoginEntry" Placeholder="Login" />
+        <Entry x:Name="UsernameEntry" Placeholder="Username" />
+        <Entry x:Name="EmailEntry" Placeholder="Email" />
+        <Entry x:Name="PasswordEntry" Placeholder="Password" IsPassword="True" />
+        <Entry x:Name="ConfirmPasswordEntry" Placeholder="Confirm Password" IsPassword="True" />
+        <Button Text="Register" Clicked="OnRegisterButtonClicked" />
+    </StackLayout>
+</ContentPage>
