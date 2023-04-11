@@ -28,7 +28,7 @@ namespace KoalitionServer.Controllers
             _httpContextAccessor = httpContextAccessor;
         }
 
-        [HttpGet("all users"), Authorize]
+        [HttpGet("allUsers"), Authorize]
         public async Task<ActionResult<List<User>>> GetAllUsers()
         {
             var users = await _context.Users.ToListAsync();

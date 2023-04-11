@@ -30,5 +30,24 @@ namespace KoalitionAndroidClient.Services
 
             }
         }
+
+        public async Task<List<GroupChatResponce>> GetGroupChats()
+        {
+            using (var client = new HttpClient())
+            {
+                client.DefaultRequestHeaders.Add("Authorization", "Bearer " + App.Token);
+                var response = await client.GetAsync("http://10.0.2.2:5127/api/GroupChat/getChats");
+
+                if (response.StatusCode == System.Net.HttpStatusCode.OK)
+                {
+                    var json = await response.Content.ReadAsStringAsync();
+                    return JsonConvert.DeserializeObject<List<GroupChatResponce>>(json);
+                }
+                else
+                {
+                    return null;
+                }
+            }
+        }
     }
 }

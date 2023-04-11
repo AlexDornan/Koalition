@@ -29,7 +29,7 @@ namespace KoalitionServer.Controllers
             return chatName;
         }
         
-        [HttpPost("adduser")]
+        [HttpPost("addUser")]
         [Authorize]
         public async Task<ActionResult<bool>> AddUserToGroupChat(AddUserToGroupChatRequest request)
         {
@@ -37,7 +37,7 @@ namespace KoalitionServer.Controllers
             return result;
         }
 
-        [HttpGet]
+        [HttpGet("getChats")]
         [Authorize]
         public async Task<IActionResult> GetCurrentUserGroupChats()
         {

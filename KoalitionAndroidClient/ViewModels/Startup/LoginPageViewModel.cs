@@ -2,14 +2,8 @@
 using KoalitionAndroidClient.Services;
 using KoalitionAndroidClient.Views.Menu;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
-using Microsoft.Toolkit.Mvvm.Input;
 using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace KoalitionAndroidClient.ViewModels.Startup

@@ -4,9 +4,9 @@ namespace KoalitionAndroidClient.Views.Menu;
 
 public partial class MenuPage : ContentPage
 {
-	public MenuPage()
+	public MenuPage(MenuPageViewModel viewModel)
 	{
 		InitializeComponent();
-		//this.BindingContext = viewModel;
+		BindingContext = viewModel;
 	}
 }

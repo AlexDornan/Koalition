@@ -3,9 +3,19 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="KoalitionAndroidClient.Views.Menu.MenuPage"
              Title="MenuPage">
-    <StackLayout>
-        <Label Text="{Binding Title}"
-                VerticalOptions="Center" 
-                HorizontalOptions="Center" />
+    <StackLayout Padding="10">
+        <Label FontSize="18" Text="Welcome to Student Dashboard Page" />
+
+        <CollectionView ItemsSource="{Binding GroupChats}">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <StackLayout Padding="10">
+                        <HorizontalStackLayout>
+                            <Label Text="{Binding Name}" />
+                        </HorizontalStackLayout>
+                    </StackLayout>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
     </StackLayout>
 </ContentPage>
