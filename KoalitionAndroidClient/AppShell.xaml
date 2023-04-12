@@ -6,7 +6,8 @@
     xmlns:local="clr-namespace:KoalitionAndroidClient"
     xmlns:models="clr-namespace:KoalitionAndroidClient.Models"
     xmlns:menuPages="clr-namespace:KoalitionAndroidClient.Views.Menu"
-    xmlns:startupPages="clr-namespace:KoalitionAndroidClient.Views.Startup">
+    xmlns:startupPages="clr-namespace:KoalitionAndroidClient.Views.Startup"
+    xmlns:chat="clr-namespace:KoalitionAndroidClient.Views.Chat">
 
     <ShellContent
         Title="Login Page" FlyoutItemIsVisible="False" Shell.FlyoutBehavior="Disabled"
@@ -14,9 +15,14 @@
         Route="LoginPage" />
 
     <ShellContent
-    Title="Menu Page"
-    ContentTemplate="{DataTemplate menuPages:MenuPage}"
-    Route="MenuPage" />
+        Title="Menu Page"
+        ContentTemplate="{DataTemplate menuPages:MenuPage}"
+        Route="MenuPage" />
+
+    <ShellContent
+        Title="GroupChatPage"
+        ContentTemplate="{DataTemplate chat:GroupChatPage}"
+        Route="GroupChatPage" />
 
 
     <Shell.FlyoutFooter>

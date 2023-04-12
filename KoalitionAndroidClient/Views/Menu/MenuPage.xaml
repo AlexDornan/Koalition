@@ -6,12 +6,16 @@
     <StackLayout Padding="10">
         <Label FontSize="18" Text="Welcome to Student Dashboard Page" />
 
-        <CollectionView ItemsSource="{Binding GroupChats}">
+        <CollectionView ItemsSource="{Binding GroupChats}" x:Name="collectionView">
             <CollectionView.ItemTemplate>
                 <DataTemplate>
                     <StackLayout Padding="10">
                         <HorizontalStackLayout>
-                            <Label Text="{Binding Name}" />
+                            <Button
+                        Text="{Binding Name}"
+                        Command="{Binding BindingContext.EnterChatCommand, Source={x:Reference collectionView}}"
+                        CommandParameter="{Binding .}"
+                        HorizontalOptions="Center" />
                         </HorizontalStackLayout>
                     </StackLayout>
                 </DataTemplate>
