@@ -60,6 +60,28 @@
             this.button8 = new System.Windows.Forms.Button();
             this.button7 = new System.Windows.Forms.Button();
             this.button6 = new System.Windows.Forms.Button();
+            this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.label6 = new System.Windows.Forms.Label();
+            this.dataGridView2 = new System.Windows.Forms.DataGridView();
+            this.button10 = new System.Windows.Forms.Button();
+            this.button11 = new System.Windows.Forms.Button();
+            this.chek = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.userIdC = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.NameUsers = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.EmailS = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.loginN = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.passW = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.tabPage4 = new System.Windows.Forms.TabPage();
+            this.button12 = new System.Windows.Forms.Button();
+            this.button13 = new System.Windows.Forms.Button();
+            this.dataGridView3 = new System.Windows.Forms.DataGridView();
+            this.label7 = new System.Windows.Forms.Label();
+            this.chek2 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.userIdC2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.name2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.email2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.loginN2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.pass2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.tabControl1.SuspendLayout();
@@ -67,6 +89,10 @@
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.tabPage2.SuspendLayout();
             this.panel3.SuspendLayout();
+            this.tabPage3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).BeginInit();
+            this.tabPage4.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView3)).BeginInit();
             this.SuspendLayout();
             // 
             // panel1
@@ -117,6 +143,7 @@
             this.listBox1.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
             this.listBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.listBox1.FormattingEnabled = true;
+            this.listBox1.HorizontalScrollbar = true;
             this.listBox1.ItemHeight = 20;
             this.listBox1.Location = new System.Drawing.Point(0, 120);
             this.listBox1.Name = "listBox1";
@@ -164,8 +191,13 @@
             // 
             // tabControl1
             // 
+            this.tabControl1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.tabControl1.Controls.Add(this.tabPage1);
             this.tabControl1.Controls.Add(this.tabPage2);
+            this.tabControl1.Controls.Add(this.tabPage3);
+            this.tabControl1.Controls.Add(this.tabPage4);
             this.tabControl1.Location = new System.Drawing.Point(4, -21);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
@@ -363,6 +395,7 @@
             this.listBox2.BackColor = System.Drawing.Color.White;
             this.listBox2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.listBox2.FormattingEnabled = true;
+            this.listBox2.HorizontalScrollbar = true;
             this.listBox2.ItemHeight = 20;
             this.listBox2.Location = new System.Drawing.Point(3, 66);
             this.listBox2.Name = "listBox2";
@@ -417,6 +450,7 @@
             this.button7.TabIndex = 0;
             this.button7.Text = "Видалити друга";
             this.button7.UseVisualStyleBackColor = false;
+            this.button7.Click += new System.EventHandler(this.button7_Click);
             // 
             // button6
             // 
@@ -430,6 +464,225 @@
             this.button6.TabIndex = 0;
             this.button6.Text = "Додати друга";
             this.button6.UseVisualStyleBackColor = false;
+            this.button6.Click += new System.EventHandler(this.button6_Click);
+            // 
+            // tabPage3
+            // 
+            this.tabPage3.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.tabPage3.Controls.Add(this.button11);
+            this.tabPage3.Controls.Add(this.button10);
+            this.tabPage3.Controls.Add(this.dataGridView2);
+            this.tabPage3.Controls.Add(this.label6);
+            this.tabPage3.Location = new System.Drawing.Point(4, 22);
+            this.tabPage3.Name = "tabPage3";
+            this.tabPage3.Size = new System.Drawing.Size(670, 481);
+            this.tabPage3.TabIndex = 2;
+            this.tabPage3.Text = "tabPage3";
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label6.Location = new System.Drawing.Point(3, 16);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(397, 20);
+            this.label6.TabIndex = 0;
+            this.label6.Text = "Оберіть, яких учасників необхідно видалити з чату:";
+            // 
+            // dataGridView2
+            // 
+            this.dataGridView2.AllowUserToAddRows = false;
+            this.dataGridView2.AllowUserToDeleteRows = false;
+            this.dataGridView2.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dataGridView2.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView2.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.chek,
+            this.userIdC,
+            this.NameUsers,
+            this.EmailS,
+            this.loginN,
+            this.passW});
+            this.dataGridView2.Location = new System.Drawing.Point(3, 51);
+            this.dataGridView2.Name = "dataGridView2";
+            this.dataGridView2.Size = new System.Drawing.Size(664, 381);
+            this.dataGridView2.TabIndex = 1;
+            // 
+            // button10
+            // 
+            this.button10.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
+            this.button10.FlatAppearance.BorderColor = System.Drawing.SystemColors.GradientActiveCaption;
+            this.button10.FlatAppearance.BorderSize = 3;
+            this.button10.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button10.Location = new System.Drawing.Point(469, 438);
+            this.button10.Name = "button10";
+            this.button10.Size = new System.Drawing.Size(96, 35);
+            this.button10.TabIndex = 2;
+            this.button10.Text = "Видалити";
+            this.button10.UseVisualStyleBackColor = false;
+            this.button10.Click += new System.EventHandler(this.button10_Click);
+            // 
+            // button11
+            // 
+            this.button11.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
+            this.button11.FlatAppearance.BorderColor = System.Drawing.SystemColors.GradientActiveCaption;
+            this.button11.FlatAppearance.BorderSize = 3;
+            this.button11.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button11.Location = new System.Drawing.Point(571, 438);
+            this.button11.Name = "button11";
+            this.button11.Size = new System.Drawing.Size(96, 35);
+            this.button11.TabIndex = 2;
+            this.button11.Text = "Вихід";
+            this.button11.UseVisualStyleBackColor = false;
+            this.button11.Click += new System.EventHandler(this.button11_Click);
+            // 
+            // chek
+            // 
+            this.chek.HeaderText = "Оберіть юзера";
+            this.chek.Name = "chek";
+            this.chek.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.chek.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            // 
+            // userIdC
+            // 
+            this.userIdC.DataPropertyName = "userId";
+            this.userIdC.HeaderText = "userIdC";
+            this.userIdC.Name = "userIdC";
+            this.userIdC.Visible = false;
+            // 
+            // NameUsers
+            // 
+            this.NameUsers.DataPropertyName = "name";
+            this.NameUsers.HeaderText = "Ім\'я";
+            this.NameUsers.Name = "NameUsers";
+            // 
+            // EmailS
+            // 
+            this.EmailS.DataPropertyName = "Email";
+            this.EmailS.HeaderText = "Пошта";
+            this.EmailS.Name = "EmailS";
+            // 
+            // loginN
+            // 
+            this.loginN.DataPropertyName = "login";
+            this.loginN.HeaderText = "loginN";
+            this.loginN.Name = "loginN";
+            this.loginN.Visible = false;
+            // 
+            // passW
+            // 
+            this.passW.DataPropertyName = "password";
+            this.passW.HeaderText = "passW";
+            this.passW.Name = "passW";
+            this.passW.Visible = false;
+            // 
+            // tabPage4
+            // 
+            this.tabPage4.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.tabPage4.Controls.Add(this.button12);
+            this.tabPage4.Controls.Add(this.button13);
+            this.tabPage4.Controls.Add(this.dataGridView3);
+            this.tabPage4.Controls.Add(this.label7);
+            this.tabPage4.Location = new System.Drawing.Point(4, 22);
+            this.tabPage4.Name = "tabPage4";
+            this.tabPage4.Size = new System.Drawing.Size(670, 481);
+            this.tabPage4.TabIndex = 3;
+            this.tabPage4.Text = "tabPage4";
+            // 
+            // button12
+            // 
+            this.button12.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
+            this.button12.FlatAppearance.BorderColor = System.Drawing.SystemColors.GradientActiveCaption;
+            this.button12.FlatAppearance.BorderSize = 3;
+            this.button12.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button12.Location = new System.Drawing.Point(571, 434);
+            this.button12.Name = "button12";
+            this.button12.Size = new System.Drawing.Size(96, 35);
+            this.button12.TabIndex = 5;
+            this.button12.Text = "Вихід";
+            this.button12.UseVisualStyleBackColor = false;
+            this.button12.Click += new System.EventHandler(this.button12_Click);
+            // 
+            // button13
+            // 
+            this.button13.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
+            this.button13.FlatAppearance.BorderColor = System.Drawing.SystemColors.GradientActiveCaption;
+            this.button13.FlatAppearance.BorderSize = 3;
+            this.button13.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button13.Location = new System.Drawing.Point(469, 434);
+            this.button13.Name = "button13";
+            this.button13.Size = new System.Drawing.Size(96, 35);
+            this.button13.TabIndex = 6;
+            this.button13.Text = "Додати";
+            this.button13.UseVisualStyleBackColor = false;
+            this.button13.Click += new System.EventHandler(this.button13_Click);
+            // 
+            // dataGridView3
+            // 
+            this.dataGridView3.AllowUserToAddRows = false;
+            this.dataGridView3.AllowUserToDeleteRows = false;
+            this.dataGridView3.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dataGridView3.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView3.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.chek2,
+            this.userIdC2,
+            this.name2,
+            this.email2,
+            this.loginN2,
+            this.pass2});
+            this.dataGridView3.Location = new System.Drawing.Point(3, 47);
+            this.dataGridView3.Name = "dataGridView3";
+            this.dataGridView3.Size = new System.Drawing.Size(664, 381);
+            this.dataGridView3.TabIndex = 4;
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label7.Location = new System.Drawing.Point(3, 12);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(392, 20);
+            this.label7.TabIndex = 3;
+            this.label7.Text = "Оберіть, яких учасників необхідно додати до чату:";
+            // 
+            // chek2
+            // 
+            this.chek2.HeaderText = "Оберіть юзера";
+            this.chek2.Name = "chek2";
+            this.chek2.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.chek2.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            // 
+            // userIdC2
+            // 
+            this.userIdC2.DataPropertyName = "userId";
+            this.userIdC2.HeaderText = "userIdC";
+            this.userIdC2.Name = "userIdC2";
+            this.userIdC2.Visible = false;
+            // 
+            // name2
+            // 
+            this.name2.DataPropertyName = "name";
+            this.name2.HeaderText = "Ім\'я";
+            this.name2.Name = "name2";
+            // 
+            // email2
+            // 
+            this.email2.DataPropertyName = "Email";
+            this.email2.HeaderText = "Пошта";
+            this.email2.Name = "email2";
+            // 
+            // loginN2
+            // 
+            this.loginN2.DataPropertyName = "login";
+            this.loginN2.HeaderText = "loginN";
+            this.loginN2.Name = "loginN2";
+            this.loginN2.Visible = false;
+            // 
+            // pass2
+            // 
+            this.pass2.DataPropertyName = "password";
+            this.pass2.HeaderText = "passW";
+            this.pass2.Name = "pass2";
+            this.pass2.Visible = false;
             // 
             // myChat
             // 
@@ -440,7 +693,7 @@
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
             this.Name = "myChat";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "chat";
             this.panel1.ResumeLayout(false);
             this.panel2.ResumeLayout(false);
@@ -451,6 +704,12 @@
             this.tabPage2.ResumeLayout(false);
             this.tabPage2.PerformLayout();
             this.panel3.ResumeLayout(false);
+            this.tabPage3.ResumeLayout(false);
+            this.tabPage3.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).EndInit();
+            this.tabPage4.ResumeLayout(false);
+            this.tabPage4.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView3)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -489,5 +748,27 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn userId;
         private System.Windows.Forms.DataGridViewTextBoxColumn NameUser;
         private System.Windows.Forms.DataGridViewTextBoxColumn Email;
+        private System.Windows.Forms.TabPage tabPage3;
+        private System.Windows.Forms.Button button11;
+        private System.Windows.Forms.Button button10;
+        private System.Windows.Forms.DataGridView dataGridView2;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn chek;
+        private System.Windows.Forms.DataGridViewTextBoxColumn userIdC;
+        private System.Windows.Forms.DataGridViewTextBoxColumn NameUsers;
+        private System.Windows.Forms.DataGridViewTextBoxColumn EmailS;
+        private System.Windows.Forms.DataGridViewTextBoxColumn loginN;
+        private System.Windows.Forms.DataGridViewTextBoxColumn passW;
+        private System.Windows.Forms.TabPage tabPage4;
+        private System.Windows.Forms.Button button12;
+        private System.Windows.Forms.Button button13;
+        private System.Windows.Forms.DataGridView dataGridView3;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn chek2;
+        private System.Windows.Forms.DataGridViewTextBoxColumn userIdC2;
+        private System.Windows.Forms.DataGridViewTextBoxColumn name2;
+        private System.Windows.Forms.DataGridViewTextBoxColumn email2;
+        private System.Windows.Forms.DataGridViewTextBoxColumn loginN2;
+        private System.Windows.Forms.DataGridViewTextBoxColumn pass2;
     }
 }

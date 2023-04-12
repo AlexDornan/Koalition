@@ -108,7 +108,7 @@
             this.Controls.Add(this.textBox4);
             this.Controls.Add(this.label3);
             this.Name = "loggin";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Авторизація";
             this.ResumeLayout(false);
             this.PerformLayout();

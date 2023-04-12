@@ -48,9 +48,10 @@ namespace WindowsFormsApp1
                           var result = await response.Content.ReadAsStringAsync();
                           loginResponse = JsonConvert.DeserializeObject<LoginResponse>(result);
                           MessageBox.Show("Ви успішно Авторизувалися! Вітаю - " + loginResponse.userDetails.name.ToString());
-                          myChat formChat = new myChat(loginResponse, textBox3.Text, this);
-                          formChat.ShowDialog();
                           clearTexBox();
+                          this.Close();
+                          myChat formChat = new myChat(loginResponse, textBox3.Text);
+                          formChat.ShowDialog();
                        }
                       else
                       {
