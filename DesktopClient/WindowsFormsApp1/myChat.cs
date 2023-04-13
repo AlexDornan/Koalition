@@ -16,7 +16,7 @@ namespace WindowsFormsApp1
     public partial class myChat : Form
     {
         LoginResponse loginResponse;
-        string pass, selectedValue, selectedItem;
+        string passL, selectedValue, selectedItem;
         int idChatRez;
         Boolean myFlag = false;
         private Timer timer, timer2;
@@ -26,12 +26,12 @@ namespace WindowsFormsApp1
             InitializeComponent();
         }
 
-        public myChat(LoginResponse loginResponse, string pass)
+        public myChat(LoginResponse loginResponse, string passL)
         {
             InitializeComponent();
             this.tabControl1.Visible = false;
             this.loginResponse = loginResponse;
-            this.pass = pass;
+            this.passL = passL;
             label1.Text = loginResponse.userDetails.name.ToString();
             myChats();
 
@@ -96,7 +96,7 @@ namespace WindowsFormsApp1
 
         private void button2_Click(object sender, EventArgs e)
         {
-            profil profils = new profil(loginResponse, this, pass);
+            profil profils = new profil(loginResponse, this, passL);
             profils.ShowDialog();
         }
 
