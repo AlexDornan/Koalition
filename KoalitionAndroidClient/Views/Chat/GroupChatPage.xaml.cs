@@ -7,10 +7,9 @@ namespace KoalitionAndroidClient.Views.Chat;
 
 public partial class GroupChatPage : ContentPage
 {
-	public GroupChatPage(GroupChatPageViewModel viewModel)
-	{
+    public GroupChatPage(GroupChatResponce groupChatResponse, LoginResponse loginResponse)
+    {
         InitializeComponent();
-        BindingContext = viewModel;
+        BindingContext = new GroupChatPageViewModel(groupChatResponse, loginResponse);
     }
-
 }

@@ -29,6 +29,10 @@ namespace KoalitionAndroidClient
             builder.Services.AddSingleton<LoginPage>();
             builder.Services.AddSingleton<MenuPage>();
             builder.Services.AddSingleton<GroupChatPage>();
+            builder.Services.AddSingleton<LoginResponse>();
+            builder.Services.AddSingleton<ChatMessageResponse>();
+            builder.Services.AddSingleton<UserBasicInfo>();
+
 
 
             builder.Services.AddSingleton<LoginPageViewModel>();

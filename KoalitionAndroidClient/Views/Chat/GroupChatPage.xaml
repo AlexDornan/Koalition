@@ -9,12 +9,14 @@
             <CollectionView.ItemTemplate>
                 <DataTemplate>
                     <StackLayout Padding="10">
+                        <Label Text="{Binding UserName}" FontAttributes="Bold" />
+                        <Label Text="{Binding TimeStamp}" FontSize="Small" TextColor="Gray" />
                         <Label Text="{Binding Text}" />
                     </StackLayout>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>
-        <Entry x:Name="entryMessage" Placeholder="Enter a message" />
+        <Entry x:Name="entryMessage" Placeholder="Enter a message" Text="{Binding NewMessage}" />
         <Button Text="Send" Command="{Binding SendMessageCommand}" />
     </StackLayout>
 </ContentPage>

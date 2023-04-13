@@ -116,7 +116,6 @@ namespace WindowsFormsApp1
                 new AuthenticationHeaderValue("Bearer", loginResponse.Token);
 
             var response = await client.GetAsync("https://localhost:7127/api/Users/allUsers");
-            var result = await response.Content.ReadAsAsync<List<User>>();
             if (response.IsSuccessStatusCode)
             {
                 var data = await response.Content.ReadAsStringAsync();
@@ -137,6 +136,7 @@ namespace WindowsFormsApp1
             }
             else
             {
+                myChats();
                 HttpClient client = new HttpClient();
 
                 client.DefaultRequestHeaders.Authorization =
