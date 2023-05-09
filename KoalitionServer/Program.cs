@@ -28,7 +28,7 @@ builder.Services.AddScoped<CreateGroupChatService>();
 builder.Services.AddScoped<GetCurrentUserGroupChatsService>();
 builder.Services.AddScoped<AddUserToGroupChatService>();
 builder.Services.AddScoped<DeleteGroupChatorUserService>();
-builder.Services.AddScoped<SendGroupMessageService>();
+builder.Services.AddScoped<GroupMessageService>();
 builder.Services.AddDbContext<AppDbContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))

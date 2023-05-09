@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace KoalitionAndroidClient.Models
 {
-    class SendMessageResponce
+    class SendMessageResponse
     {
         public string Text { get; set; }
         public DateTime Time { get; set; }

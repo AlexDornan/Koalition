@@ -10,18 +10,18 @@ namespace KoalitionServer.Controllers
     [Route("api/groupchats/{groupChatId}/messages")]
     public class GroupMessagesController : ControllerBase
     {
-        private readonly SendGroupMessageService _sendGroupMessageService;
+        private readonly GroupMessageService _groupMessageService;
 
-        public GroupMessagesController(SendGroupMessageService sendGroupMessageService)
+        public GroupMessagesController(GroupMessageService groupMessageService)
         {
-            _sendGroupMessageService = sendGroupMessageService;
+            _groupMessageService = groupMessageService;
         }
 
         [HttpPost("sendMessage")]
         [Authorize]
         public async Task<ActionResult<SendMessageResponse>> SendGroupMessage(int groupChatId, [FromBody] SendMessageRequest message)
         {
-            await _sendGroupMessageService.SendGroupMessageAsync(groupChatId, message.Text, User);
+            await _groupMessageService.SendGroupMessageAsync(groupChatId, message.Text, User);
 
             var responseDto = new SendMessageResponse
             {
@@ -36,7 +36,7 @@ namespace KoalitionServer.Controllers
         [Authorize]
         public async Task<ActionResult<IEnumerable<ChatMessageResponse>>> GetGroupChatMessages(int groupChatId)
         {
-            var messages = await _sendGroupMessageService.GetMessagesForGroupChat(groupChatId);
+            var messages = await _groupMessageService.GetMessagesForGroupChat(groupChatId);
 
             var messageDtos = new List<ChatMessageResponse>();
             foreach (var message in messages)
@@ -51,8 +51,25 @@ namespace KoalitionServer.Controllers
 
             return Ok(messageDtos);
         }
+
+        [HttpPut("{messageId}")]
+        [Authorize]
+        public async Task<IActionResult> UpdateGroupMessage(int groupChatId, int messageId, [FromBody] SendMessageRequest message)
+        {
+            await _groupMessageService.UpdateMessage(groupChatId, messageId, message.Text);
+            return NoContent();
+        }
+
+        [HttpDelete("{messageId}")]
+        [Authorize]
+        public async Task<IActionResult> DeleteGroupMessage(int groupChatId, int messageId)
+        {
+            await _groupMessageService.DeleteMessage(groupChatId, messageId);
+            return NoContent();
+        }
+
     }
 
-    
+
 
 }

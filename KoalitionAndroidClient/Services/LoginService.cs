@@ -31,7 +31,7 @@ namespace KoalitionAndroidClient.Services
             }
         }
 
-        public async Task<List<GroupChatResponce>> GetGroupChats()
+        public async Task<List<GroupChatResponse>> GetGroupChats()
         {
             using (var client = new HttpClient())
             {
@@ -41,7 +41,7 @@ namespace KoalitionAndroidClient.Services
                 if (response.StatusCode == System.Net.HttpStatusCode.OK)
                 {
                     var json = await response.Content.ReadAsStringAsync();
-                    return JsonConvert.DeserializeObject<List<GroupChatResponce>>(json);
+                    return JsonConvert.DeserializeObject<List<GroupChatResponse>>(json);
                 }
                 else
                 {

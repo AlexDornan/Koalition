@@ -10,6 +10,6 @@ namespace KoalitionAndroidClient.Services
     public interface ILoginService
     {
         Task<LoginResponse> Authenticate(LoginRequest loginRequest);
-        Task<List<GroupChatResponce>> GetGroupChats();
+        Task<List<GroupChatResponse>> GetGroupChats();
     }
 }

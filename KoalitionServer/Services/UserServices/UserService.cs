@@ -2,6 +2,7 @@
 using KoalitionServer.Models;
 using KoalitionServer.Requests.UserRequests;
 using KoalitionServer.Responses.UserResponses;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -17,12 +18,14 @@ namespace KoalitionServer.Services.UserServices
         private readonly AppDbContext _context;
         private readonly IPasswordHasher<User> _passwordHasher;
         private readonly IConfiguration _configuration;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public UserService(AppDbContext context, IPasswordHasher<User> passwordHasher, IConfiguration configuration)
+        public UserService(AppDbContext context, IPasswordHasher<User> passwordHasher, IConfiguration configuration, IHttpContextAccessor httpContextAccessor)
         {
             _context = context;
             _passwordHasher = passwordHasher;
             _configuration = configuration;
+            _httpContextAccessor = httpContextAccessor;
         }
 
         public async Task<User> RegisterUser(RegistrationRequest regRequest)
@@ -45,6 +48,24 @@ namespace KoalitionServer.Services.UserServices
 
             return newUser;
         }
+
+        public async Task<User> UpdateUser(RegistrationRequest updateRequest)
+        {
+            var currentUser = _httpContextAccessor.HttpContext.User?.Claims?.FirstOrDefault(x => x.Type == ClaimTypes.Name)?.Value;
+            var user = await _context.Users.FirstOrDefaultAsync(x => x.Login == currentUser);
+            if (user == null)
+            {
+                throw new ArgumentException("Invalid login!");
+            }
+            user.Login = updateRequest.Login;
+            user.Name = updateRequest.Name;
+            user.Email = updateRequest.Email;
+            user.Password = _passwordHasher.HashPassword(null, updateRequest.Password);
+            _context.Users.Update(user);
+            await _context.SaveChangesAsync();
+            return user;
+        }
+
 
         public async Task<AuthenticateResponse> Authenticate(AuthenticateRequest authRequest)
         {

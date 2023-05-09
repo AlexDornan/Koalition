@@ -3,41 +3,54 @@ using KoalitionAndroidClient.Models;
 using KoalitionAndroidClient.Services;
 using KoalitionAndroidClient.ViewModels.Chat;
 using KoalitionAndroidClient.Views.Chat;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace KoalitionAndroidClient.ViewModels.Menu
 {
-    public class MenuPageViewModel : BaseViewModel
+    public class MenuPageViewModel : BaseViewModel, ISelectedGroupChat
     {
-        public ObservableCollection<GroupChatResponce> GroupChats { get; set; } = 
-            new ObservableCollection<GroupChatResponce>();
+        public ObservableCollection<GroupChatResponse> GroupChats { get; set; } = 
+            new ObservableCollection<GroupChatResponse>();
 
         public readonly ILoginService _loginService;
+        private ObservableCollection<ChatMessageResponse> _messages;
+        public GroupChatResponse _selectedGroupChat;
 
+        public ObservableCollection<ChatMessageResponse> Messages
+        {
+            get { return _messages; }
+            set
+            {
+                _messages = value;
+                OnPropertyChanged(nameof(Messages));
+            }
+        }
         public ICommand EnterChatCommand => new Command(EnterChat);
         public MenuPageViewModel(ILoginService loginService)
         {
             _loginService = loginService;
             AppShell.Current.FlyoutHeader = new FlyoutHeaderControl();
             GetGroupChats();
-
-            
         }
+
         public async void EnterChat(object groupChat)
         {
-            // Cast the groupChat parameter to GroupChatResponce
-            var selectedGroupChat = groupChat as GroupChatResponce;
+            var selectedGroupChat = groupChat as GroupChatResponse;
 
-            // Navigate to GroupChatPage with the selected GroupChat as parameter
-            await Shell.Current.GoToAsync($"//{nameof(GroupChatPage)}?{nameof(GroupChatPageViewModel.SelectedGroupChat)}={selectedGroupChat.Id}");
+            var viewModel = new GroupChatPageViewModel(selectedGroupChat);
+            await viewModel.GetUsersAndMessages();
+
+            var groupChatPage = new GroupChatPage(viewModel);
+            await Shell.Current.Navigation.PushAsync(groupChatPage);
         }
-
 
         public void GetGroupChats()
         {

@@ -1,4 +1,5 @@
 ﻿using KoalitionAndroidClient.Models;
+using KoalitionAndroidClient.Services;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -6,29 +7,17 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Net.Http.Headers;
 using System.Text;
-using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace KoalitionAndroidClient.ViewModels.Chat
 {
     public class GroupChatPageViewModel : BaseViewModel
     {
-        private GroupChatResponce _selectedGroupChat;
         private ObservableCollection<ChatMessageResponse> _messages;
-        private string _entryMessageText;
-        private LoginResponse _loginResponse;
+        private ObservableCollection<SendMessageRequest> _sendMessageText;
         private ObservableCollection<UserBasicInfo> _users;
-
-
-
-        public GroupChatResponce SelectedGroupChat
-        {
-            get => _selectedGroupChat;
-            set
-            {
-                _selectedGroupChat = value;
-                OnPropertyChanged();
-            }
-        }
+        private GroupChatResponse _selectedGroupChat;
+        public GroupChatResponse SelectedGroupChat { get; set; }
 
         public ObservableCollection<ChatMessageResponse> Messages
         {
@@ -50,89 +39,99 @@ namespace KoalitionAndroidClient.ViewModels.Chat
             }
         }
 
-        public string EntryMessageText
+        public ObservableCollection<SendMessageRequest> SendMessageRequests
         {
-            get => _entryMessageText;
+            get => _sendMessageText;
             set
             {
-                _entryMessageText = value;
+                _sendMessageText = value;
                 OnPropertyChanged();
             }
         }
 
-        public Command SendMessageCommand { get; }
-
-        public GroupChatPageViewModel(GroupChatResponce selectedGroupChat, LoginResponse loginResponse)
+        private string _newMessage;
+        public string NewMessage
         {
+            get { return _newMessage; }
+            set
+            {
+                _newMessage = value;
+                OnPropertyChanged(nameof(NewMessage));
+            }
+        }
+
+        public ObservableCollection<UserBasicInfo> Users
+        {
+            get { return _users; }
+            set
+            {
+                _users = value;
+                OnPropertyChanged(nameof(Users));
+            }
+        }
+
+        public ICommand SendMessageCommand { get;set; }
+        public GroupChatPageViewModel(GroupChatResponse selectedGroupChat)
+        {
+            SendMessageCommand = new Command<object>(async (param) => await SendMessage());
+            //_sendMessageText = new ObservableCollection<SendMessageRequest>();
             _selectedGroupChat = selectedGroupChat;
-            Messages = new ObservableCollection<ChatMessageResponse>();
-
-            SendMessageCommand = new Command(SendMessage);
-            _loginResponse = loginResponse;
-
             GetUsersAndMessages();
         }
 
-        public void SendMessage()
-        {
-            // Use _selectedGroupChat.Id and other properties to perform actions in the group chat
-            // For example, send a message to the group chat using the selected group chat's ID
-            int groupId = _selectedGroupChat.Id;
-
-            // Perform action with the group chat ID
-            // After sending the message, add it to the Messages collection to display in the chat
-            ChatMessageResponse newMessage = new ChatMessageResponse
-            {
-                Text = EntryMessageText,
-                Time = DateTime.Now,
-                UserId = 1 // replace with the actual user ID
-            };
-
-            Messages.Add(newMessage);
-
-            // Clear the entry after sending the message
-            EntryMessageText = string.Empty;
-        }
-
-        private async void GetUsersAndMessages()
+        public async Task GetUsersAndMessages()
         {
             if (_selectedGroupChat == null)
             {
-                // Return or throw an exception, depending on how you want to handle the null case
+                Console.WriteLine("Error: SelectedGroupChat is null.");
                 return;
             }
-            HttpClient _httpClient = new HttpClient();
-            string _baseUrl = "http://10.0.2.2:5127/api/";
 
-            // Set the authorization header with the bearer token
-            _httpClient.DefaultRequestHeaders.Authorization =
-                new AuthenticationHeaderValue("Bearer", _loginResponse.Token);
+            using HttpClient httpClient = new HttpClient();
+            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", App.Token);
 
             // Get all users
-            var usersResponse = await _httpClient.GetAsync("http://10.0.2.2:5127/api/Users/allUsers");
+            var usersResponse = await httpClient.GetAsync("http://10.0.2.2:5127/api/Users/allUsers");
             var usersJson = await usersResponse.Content.ReadAsStringAsync();
             var users = JsonConvert.DeserializeObject<List<UserBasicInfo>>(usersJson);
 
-            // Get all messages for the selected group chat
-            var messagesResponse = await _httpClient.GetAsync(_baseUrl + $"groupchats/{SelectedGroupChat.Id}/messages");
+            var messagesResponse = await httpClient.GetAsync($"http://10.0.2.2:5127/api/groupchats/{_selectedGroupChat.Id}/messages");
             var messagesJson = await messagesResponse.Content.ReadAsStringAsync();
             var messages = JsonConvert.DeserializeObject<List<ChatMessageResponse>>(messagesJson);
 
-            if (Messages.Count != messages.Count)
+            foreach (var message in messages)
             {
-                Messages.Clear();
-
-                foreach (var message in messages)
+                var sender = users.FirstOrDefault(u => u.UserId == message.UserId);
+                if (sender != null)
                 {
-                    var user = users.FirstOrDefault(u => u.UserId == message.UserId);
-                    if (user != null)
-                    {
-                        Messages.Add(message); // Add ChatMessageResponse object to Messages collection
-                    }
+                    message.Name = sender.Name;
                 }
             }
+            Messages = new ObservableCollection<ChatMessageResponse>(messages);
         }
+        
 
+        public async Task SendMessage()
+        {
+            using HttpClient httpClient = new HttpClient();
+            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", App.Token);
+            var message = new SendMessageRequest
+            {
+                Text = NewMessage,
+                Id = _selectedGroupChat.Id
+            };
+            var messageJson = JsonConvert.SerializeObject(message);
+            var content = new StringContent(messageJson, Encoding.UTF8, "application/json");
+            var response = await httpClient.PostAsync($"http://10.0.2.2:5127/api/groupchats/{_selectedGroupChat.Id}/messages/sendMessage", content);
+            if (response.IsSuccessStatusCode)
+            {
+                // Clear the NewMessage property
+                NewMessage = string.Empty;
+
+                // Refresh the messages
+                await GetUsersAndMessages();
+            }
+        }
     }
 }
 

@@ -6,12 +6,12 @@ using System.Security.Claims;
 
 namespace KoalitionServer.Services.GroupMessagesServices
 {
-    public class SendGroupMessageService
+    public class GroupMessageService
     {
         private readonly AppDbContext _context;
         private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public SendGroupMessageService(AppDbContext appDbContext, IHttpContextAccessor httpContextAccessor)
+        public GroupMessageService(AppDbContext appDbContext, IHttpContextAccessor httpContextAccessor)
         {
             _context = appDbContext;
             _httpContextAccessor = httpContextAccessor;
@@ -72,6 +72,47 @@ namespace KoalitionServer.Services.GroupMessagesServices
                 .ToList();
 
             return messages;
+        }
+
+        //add here update message method(int groupChatId, string message, ClaimsPrincipal user)
+        public async Task UpdateMessage(int groupChatId, int messageId, string message)
+        {
+            var groupChat = await _context.GroupChats
+                .Include(gc => gc.GroupChatsToUsers)
+                .ThenInclude(gcu => gcu.User)
+                .Include(gc => gc.Messages)
+                .FirstOrDefaultAsync(gc => gc.GroupChatId == groupChatId);
+            if (groupChat == null)
+                throw new ArgumentException($"Group chat with id {groupChatId} not found");
+            var currentUser = _httpContextAccessor.HttpContext.User?.Claims?.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
+            var groupChatUser = groupChat.GroupChatsToUsers.FirstOrDefault(u => u.User.UserId == Convert.ToInt32(currentUser));
+            if (groupChatUser == null)
+                throw new ArgumentException("User is not a member of this group chat");
+            var messageToUpdate = groupChat.Messages.FirstOrDefault(m => m.GroupMessageId == messageId);
+            if (messageToUpdate == null)
+                throw new ArgumentException($"Message with id {messageId} not found");
+            messageToUpdate.Text = message;
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task DeleteMessage(int groupChatId, int messageId)
+        {
+            var groupChat = await _context.GroupChats
+                .Include(gc => gc.GroupChatsToUsers)
+                .ThenInclude(gcu => gcu.User)
+                .Include(gc => gc.Messages)
+                .FirstOrDefaultAsync(gc => gc.GroupChatId == groupChatId);
+            if (groupChat == null)
+                throw new ArgumentException($"Group chat with id {groupChatId} not found");
+            var currentUser = _httpContextAccessor.HttpContext.User?.Claims?.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
+            var groupChatUser = groupChat.GroupChatsToUsers.FirstOrDefault(u => u.User.UserId == Convert.ToInt32(currentUser));
+            if (groupChatUser == null)
+                throw new ArgumentException("User is not a member of this group chat");
+            var message = groupChat.Messages.FirstOrDefault(m => m.GroupMessageId == messageId);
+            if (message == null)
+                throw new ArgumentException($"Message with id {messageId} not found");
+            _context.GroupMessages.Remove(message);
+            await _context.SaveChangesAsync();
         }
 
     }

@@ -60,6 +60,14 @@ namespace KoalitionServer.Controllers
             return Ok(user);
         }
 
+        //add here method for updating user regRequest
+        [HttpPut("update"), Authorize]
+        public async Task<ActionResult<User>> UpdateUser([FromBody] RegistrationRequest updateRequest)
+        {
+            var user = await _userService.UpdateUser(updateRequest);
+            return Ok(user);
+        }
+
         [HttpPost("login")]
         public async Task<ActionResult<AuthenticateResponse>> Authenticate([FromBody] AuthenticateRequest authRequest)
         {

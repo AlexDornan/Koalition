@@ -10,6 +10,7 @@ namespace KoalitionServer.Models
         public DateTime Time { get; set; }
         public int GroupChatId { get; set; }
         public int UserId { get; set; }
+        //public string Name { get; set; }
         public GroupMessage()
         {
             Time = DateTime.Now;

@@ -4,7 +4,7 @@
              x:Class="KoalitionAndroidClient.Views.Menu.MenuPage"
              Title="MenuPage">
     <StackLayout Padding="10">
-        <Label FontSize="18" Text="Welcome to Student Dashboard Page" />
+        <Label FontSize="18" Text="Welcome to Koalition" />
 
         <CollectionView ItemsSource="{Binding GroupChats}" x:Name="collectionView">
             <CollectionView.ItemTemplate>
