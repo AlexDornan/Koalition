@@ -1,4 +1,7 @@
 ﻿using KoalitionServer.Data;
+using KoalitionServer.Models;
+using KoalitionServer.Requests.GroupChatRequests;
+using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
 
@@ -11,6 +14,31 @@ namespace KoalitionServer.Services.GroupChatServices
         public DeleteGroupChatorUserService(AppDbContext context)
         {
             _context = context;            
+        }
+
+        public async Task UpdateGroupChat(string groupName, CreateGroupChatRequest update, ClaimsPrincipal user)
+        {
+            var groupChat = await _context.GroupChats
+                .Include(gc => gc.GroupChatsToUsers)
+                .ThenInclude(gtu => gtu.User)
+                .FirstOrDefaultAsync(gc => gc.Name == groupName);
+
+            if (groupChat == null)
+            {
+                throw new Exception($"Group chat with name '{groupName}' not found");
+            }
+
+            var isOwner = groupChat.GroupChatsToUsers
+                .FirstOrDefault(gtu => gtu.User.Login == user.FindFirst(ClaimTypes.Name).Value && gtu.IsOwner);
+
+            if (isOwner == null)
+            {
+                throw new Exception("You are not authorized to delete this group chat");
+            }
+
+            groupChat.Name = update.Name;
+            groupChat.Description = update.Description;
+            await _context.SaveChangesAsync();
         }
 
         public async Task DeleteGroupChatAsync(string groupName, ClaimsPrincipal user)

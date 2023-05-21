@@ -4,6 +4,7 @@ using KoalitionServer.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace KoalitionServer.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230519121609_priv8")]
+    partial class priv8
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -251,7 +253,7 @@ namespace KoalitionServer.Migrations
 
             modelBuilder.Entity("KoalitionServer.Models.PrivateMessage", b =>
                 {
-                    b.HasOne("KoalitionServer.Models.PrivateChat", "PrivateChat")
+                    b.HasOne("KoalitionServer.Models.PrivateChat", null)
                         .WithMany("Messages")
                         .HasForeignKey("PrivateChatId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -262,8 +264,6 @@ namespace KoalitionServer.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("PrivateChat");
                 });
 
             modelBuilder.Entity("KoalitionServer.Models.GroupChat", b =>

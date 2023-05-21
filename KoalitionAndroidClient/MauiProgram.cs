@@ -25,7 +25,7 @@ namespace KoalitionAndroidClient
                 });
 
             builder.Services.AddSingleton<ILoginService, LoginService>();
-            builder.Services.AddSingleton<ISelectedGroupChat, MenuPageViewModel>();
+            builder.Services.AddSingleton<MenuPageViewModel>();
 
             builder.Services.AddSingleton<LoginPage>();
             builder.Services.AddSingleton<MenuPage>();

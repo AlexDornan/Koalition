@@ -74,7 +74,6 @@ namespace KoalitionServer.Services.GroupMessagesServices
             return messages;
         }
 
-        //add here update message method(int groupChatId, string message, ClaimsPrincipal user)
         public async Task UpdateMessage(int groupChatId, int messageId, string message)
         {
             var groupChat = await _context.GroupChats

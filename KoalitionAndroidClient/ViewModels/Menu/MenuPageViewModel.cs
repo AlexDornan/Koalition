@@ -15,7 +15,7 @@ using System.Windows.Input;
 
 namespace KoalitionAndroidClient.ViewModels.Menu
 {
-    public class MenuPageViewModel : BaseViewModel, ISelectedGroupChat
+    public class MenuPageViewModel : BaseViewModel
     {
         public ObservableCollection<GroupChatResponse> GroupChats { get; set; } = 
             new ObservableCollection<GroupChatResponse>();

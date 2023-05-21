@@ -23,7 +23,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Remove="Controllers\PrivateChatsController.cs" />
     <Compile Remove="Models\Activity.cs" />
     <Compile Remove="Models\GroupChatUser.cs" />
     <Compile Remove="Models\GroupChatUserMTM.cs" />

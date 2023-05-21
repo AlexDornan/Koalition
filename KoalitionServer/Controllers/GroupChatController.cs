@@ -45,6 +45,17 @@ namespace KoalitionServer.Controllers
             return Ok(groupChatDtos);
         }
 
+        [HttpPut("updateGroupChat")]
+        [Authorize]
+        public async Task<IActionResult> UpdateGroupChat(string groupName, [FromBody] CreateGroupChatRequest update)
+        {
+            await _deleteGroupChatorUserService.UpdateGroupChat(groupName, update, User);
+            return NoContent();
+        }
+
+        //use here UpdateGroupChat from DeleteGroupChatorUserService
+
+
         [HttpDelete("{groupName}")]
         [Authorize]
         public async Task<IActionResult> DeleteGroupChat(string groupName)

@@ -13,6 +13,7 @@ using KoalitionServer.Services.UserServices;
 using KoalitionServer.Services.GroupChatServices;
 using KoalitionServer.Services.GroupMessagesServices;
 using System.Net.Http.Headers;
+using KoalitionServer.Services.PrivateChatServices;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -29,6 +30,7 @@ builder.Services.AddScoped<GetCurrentUserGroupChatsService>();
 builder.Services.AddScoped<AddUserToGroupChatService>();
 builder.Services.AddScoped<DeleteGroupChatorUserService>();
 builder.Services.AddScoped<GroupMessageService>();
+builder.Services.AddScoped<PrivateChatService>();
 builder.Services.AddDbContext<AppDbContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))

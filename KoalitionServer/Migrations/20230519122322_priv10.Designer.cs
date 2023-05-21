@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace KoalitionServer.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20230315163655_sendGroupMessage")]
-    partial class sendGroupMessage
+    [Migration("20230519122322_priv10")]
+    partial class priv10
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -101,9 +101,29 @@ namespace KoalitionServer.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PrivateChatId"), 1L, 1);
 
+                    b.Property<int?>("UserId")
+                        .HasColumnType("int");
+
                     b.HasKey("PrivateChatId");
 
+                    b.HasIndex("UserId");
+
                     b.ToTable("PrivateChats");
+                });
+
+            modelBuilder.Entity("KoalitionServer.Models.PrivateChatsToUsers", b =>
+                {
+                    b.Property<int>("PrivateChatId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("PrivateChatId", "UserId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("PrivateChatsToUsers");
                 });
 
             modelBuilder.Entity("KoalitionServer.Models.PrivateMessage", b =>
@@ -124,7 +144,7 @@ namespace KoalitionServer.Migrations
                     b.Property<DateTime>("Time")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("UserId")
+                    b.Property<int>("UserId")
                         .HasColumnType("int");
 
                     b.HasKey("PrivateMessageId");
@@ -171,21 +191,6 @@ namespace KoalitionServer.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("PrivateChatUser", b =>
-                {
-                    b.Property<int>("PrivateChatsPrivateChatId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("UsersUserId")
-                        .HasColumnType("int");
-
-                    b.HasKey("PrivateChatsPrivateChatId", "UsersUserId");
-
-                    b.HasIndex("UsersUserId");
-
-                    b.ToTable("PrivateChatUser");
-                });
-
             modelBuilder.Entity("KoalitionServer.Models.GroupChatsToUsers", b =>
                 {
                     b.HasOne("KoalitionServer.Models.GroupChat", "GroupChat")
@@ -220,9 +225,35 @@ namespace KoalitionServer.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("KoalitionServer.Models.PrivateChat", b =>
+                {
+                    b.HasOne("KoalitionServer.Models.User", null)
+                        .WithMany("PrivateChats")
+                        .HasForeignKey("UserId");
+                });
+
+            modelBuilder.Entity("KoalitionServer.Models.PrivateChatsToUsers", b =>
+                {
+                    b.HasOne("KoalitionServer.Models.PrivateChat", "PrivateChat")
+                        .WithMany("PrivateChatsToUsers")
+                        .HasForeignKey("PrivateChatId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("KoalitionServer.Models.User", "User")
+                        .WithMany("PrivateChatsToUsers")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("PrivateChat");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("KoalitionServer.Models.PrivateMessage", b =>
                 {
-                    b.HasOne("KoalitionServer.Models.PrivateChat", null)
+                    b.HasOne("KoalitionServer.Models.PrivateChat", "PrivateChat")
                         .WithMany("Messages")
                         .HasForeignKey("PrivateChatId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -230,22 +261,11 @@ namespace KoalitionServer.Migrations
 
                     b.HasOne("KoalitionServer.Models.User", null)
                         .WithMany("PrivateMessages")
-                        .HasForeignKey("UserId");
-                });
-
-            modelBuilder.Entity("PrivateChatUser", b =>
-                {
-                    b.HasOne("KoalitionServer.Models.PrivateChat", null)
-                        .WithMany()
-                        .HasForeignKey("PrivateChatsPrivateChatId")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("KoalitionServer.Models.User", null)
-                        .WithMany()
-                        .HasForeignKey("UsersUserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Navigation("PrivateChat");
                 });
 
             modelBuilder.Entity("KoalitionServer.Models.GroupChat", b =>
@@ -258,6 +278,8 @@ namespace KoalitionServer.Migrations
             modelBuilder.Entity("KoalitionServer.Models.PrivateChat", b =>
                 {
                     b.Navigation("Messages");
+
+                    b.Navigation("PrivateChatsToUsers");
                 });
 
             modelBuilder.Entity("KoalitionServer.Models.User", b =>
@@ -265,6 +287,10 @@ namespace KoalitionServer.Migrations
                     b.Navigation("GroupChatsToUsers");
 
                     b.Navigation("GroupMessages");
+
+                    b.Navigation("PrivateChats");
+
+                    b.Navigation("PrivateChatsToUsers");
 
                     b.Navigation("PrivateMessages");
                 });
