@@ -1,4 +1,5 @@
 ﻿using KoalitionAndroidClient.ViewModels;
+using KoalitionAndroidClient.Views.AddGroupChatPage;
 using KoalitionAndroidClient.Views.Menu;
 
 namespace KoalitionAndroidClient
@@ -11,6 +12,9 @@ namespace KoalitionAndroidClient
 
 
             this.BindingContext = new AppShellViewModel();
+            
+            Routing.RegisterRoute("MenuPage", typeof(MenuPage));
+            Routing.RegisterRoute("AddGroupChatPage", typeof(AddGroupChatPage));
         }
     }
 }

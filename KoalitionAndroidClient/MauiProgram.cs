@@ -1,9 +1,11 @@
 ﻿using System.Net.Http.Headers;
 using KoalitionAndroidClient.Models;
 using KoalitionAndroidClient.Services;
+using KoalitionAndroidClient.ViewModels.AddGroupChatPageViewModel;
 using KoalitionAndroidClient.ViewModels.Chat;
 using KoalitionAndroidClient.ViewModels.Menu;
 using KoalitionAndroidClient.ViewModels.Startup;
+using KoalitionAndroidClient.Views.AddGroupChatPage;
 using KoalitionAndroidClient.Views.Chat;
 using KoalitionAndroidClient.Views.Menu;
 using KoalitionAndroidClient.Views.Startup;
@@ -33,6 +35,7 @@ namespace KoalitionAndroidClient
             builder.Services.AddSingleton<LoginResponse>();
             builder.Services.AddSingleton<ChatMessageResponse>();
             builder.Services.AddSingleton<UserBasicInfo>();
+            builder.Services.AddSingleton<AddGroupChatPage>();
 
 
 
@@ -40,6 +43,7 @@ namespace KoalitionAndroidClient
             builder.Services.AddSingleton<MenuPageViewModel>();
             builder.Services.AddSingleton<GroupChatResponse>();
             builder.Services.AddSingleton<GroupChatPageViewModel>();
+            builder.Services.AddSingleton<AddGroupChatPageViewModel>();
             
 
 

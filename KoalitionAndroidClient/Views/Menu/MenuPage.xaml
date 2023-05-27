@@ -4,7 +4,9 @@
              x:Class="KoalitionAndroidClient.Views.Menu.MenuPage"
              Title="MenuPage">
     <StackLayout Padding="10">
-        <Label FontSize="18" Text="Welcome to Koalition" />
+        <Label FontSize="18" Text="Welcome to Koalition" HorizontalOptions="Center"/>
+
+        <Button Text="Create Chat" Command="{Binding EnterCreateGroupChatCommand}" HorizontalOptions="Center" />
 
         <CollectionView ItemsSource="{Binding GroupChats}" x:Name="collectionView">
             <CollectionView.ItemTemplate>

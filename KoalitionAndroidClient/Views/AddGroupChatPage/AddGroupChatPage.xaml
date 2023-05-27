@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="KoalitionAndroidClient.Views.AddGroupChatPage.AddGroupChatPage"
+             Title="AddGroupChatPage">
+    <VerticalStackLayout
+        Spacing="25" 
+            Padding="30,0" 
+            VerticalOptions="Center">
+
+        <Label
+                Text="Create your chat"
+                SemanticProperties.HeadingLevel="Level1"
+                FontSize="32"
+                HorizontalOptions="Center" />
+
+        <Frame HeightRequest="45" Margin="-20,0,0,0" Padding="0" HasShadow="True" BorderColor="White"  HorizontalOptions="FillAndExpand">
+            <Entry Text="{Binding Name}" Margin="20,0,0,0" VerticalOptions="Center" Placeholder="Name" />
+        </Frame>
+
+        <Frame HeightRequest="45" Margin="-20,0,0,0" Padding="0" HasShadow="True" BorderColor="White"  HorizontalOptions="FillAndExpand">
+            <Entry Text="{Binding Description}" Margin="20,0,0,0" VerticalOptions="Center" Placeholder="Desciption" IsPassword="True" />
+        </Frame>
+
+        <Button Text="Done" WidthRequest="100" CornerRadius="20" HorizontalOptions="Center" Command="{Binding CreateGroupChatCommand}" />
+    </VerticalStackLayout>
+</ContentPage>

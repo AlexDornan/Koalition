@@ -110,7 +110,7 @@ namespace KoalitionAndroidClient.ViewModels.Chat
             Messages = new ObservableCollection<ChatMessageResponse>(messages);
         }
         
-
+        //юзануть этот принцип в создании чата
         public async Task SendMessage()
         {
             using HttpClient httpClient = new HttpClient();

@@ -2,6 +2,7 @@
 using KoalitionAndroidClient.Models;
 using KoalitionAndroidClient.Services;
 using KoalitionAndroidClient.ViewModels.Chat;
+using KoalitionAndroidClient.Views.AddGroupChatPage;
 using KoalitionAndroidClient.Views.Chat;
 using Newtonsoft.Json;
 using System;
@@ -34,11 +35,12 @@ namespace KoalitionAndroidClient.ViewModels.Menu
             }
         }
         public ICommand EnterChatCommand => new Command(EnterChat);
+        public ICommand EnterCreateGroupChatCommand => new Command(EnterCreateGroupChat);
         public MenuPageViewModel(ILoginService loginService)
         {
             _loginService = loginService;
             AppShell.Current.FlyoutHeader = new FlyoutHeaderControl();
-            GetGroupChats();
+            //GetGroupChats();
         }
 
         public async void EnterChat(object groupChat)
@@ -69,6 +71,14 @@ namespace KoalitionAndroidClient.ViewModels.Menu
                     }
                 });
             });
+        }
+
+        public async void EnterCreateGroupChat()
+        {
+            await Shell.Current.GoToAsync("AddGroupChatPage");
+            //await Shell.Current.GoToAsync($"//{nameof(AddGroupChatPage)}");
+            //await Shell.Current.GoToAsync("//AddGroupChatPage");
+            //await Shell.Current.Navigation.PushAsync(new AddGroupChatPage());
         }
     }
 }
