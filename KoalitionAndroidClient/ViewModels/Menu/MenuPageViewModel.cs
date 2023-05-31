@@ -76,9 +76,6 @@ namespace KoalitionAndroidClient.ViewModels.Menu
         public async void EnterCreateGroupChat()
         {
             await Shell.Current.GoToAsync("AddGroupChatPage");
-            //await Shell.Current.GoToAsync($"//{nameof(AddGroupChatPage)}");
-            //await Shell.Current.GoToAsync("//AddGroupChatPage");
-            //await Shell.Current.Navigation.PushAsync(new AddGroupChatPage());
         }
     }
 }

@@ -1,5 +1,4 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,13 +6,10 @@ using System.Threading.Tasks;
 
 namespace KoalitionAndroidClient.Models
 {
-    public class ChatMessageResponse
+    public class EditMessageRequest
     {
-        [JsonProperty("messageId")]
+        public int GroupChatId { get; set; }
         public int MessageId { get; set; }
         public string Text { get; set; }
-        public DateTime Time { get; set; }
-        public int UserId { get; set; }
-        public string Name { get; set; }
     }
 }

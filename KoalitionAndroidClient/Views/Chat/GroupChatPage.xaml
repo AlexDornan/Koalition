@@ -1,8 +1,16 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:services="clr-namespace:KoalitionAndroidClient.Services;assembly=KoalitionAndroidClient"
              x:Class="KoalitionAndroidClient.Views.Chat.GroupChatPage"
              Title="GroupChatPage">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <services:EditMessageConverter x:Key="EditMessageConverter" />
+            <services:SendButtonConverter x:Key="SendButtonConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
@@ -10,24 +18,35 @@
         </Grid.RowDefinitions>
 
         <ScrollView Grid.Row="0">
-            <CollectionView ItemsSource="{Binding Messages}" HeightRequest="600" VerticalOptions="FillAndExpand">
-                <CollectionView.ItemTemplate>
-                    <DataTemplate>
-                        <StackLayout Padding="10">
-                            <Label Text="{Binding Name}" FontAttributes="Bold" />
-                            <Label Text="{Binding Time}" FontSize="Small" TextColor="Gray" />
-                            <Label Text="{Binding Text}" />
-                        </StackLayout>
-                    </DataTemplate>
-                </CollectionView.ItemTemplate>
-            </CollectionView>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+
+                <CollectionView ItemsSource="{Binding Messages}" HeightRequest="600" VerticalOptions="FillAndExpand" x:Name="collectionView">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <StackLayout Padding="10">
+                                <StackLayout.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding BindingContext.EditMessageCommand, Source={x:Reference collectionView}}" CommandParameter="{Binding .}" />
+                                </StackLayout.GestureRecognizers>
+                                <Label Text="{Binding Name}" FontAttributes="Bold" />
+                                <Label Text="{Binding Time}" FontSize="Small" TextColor="Gray" />
+                                <Label Text="{Binding Text}" />
+                            </StackLayout>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </Grid>
         </ScrollView>
 
+       
+        
         <StackLayout Grid.Row="1" Padding="10">
-            <Entry x:Name="entryMessage" Placeholder="Enter a message" Text="{Binding NewMessage}" />
-            <Button Text="Send" Command="{Binding SendMessageCommand}" />
+            <Entry x:Name="entryMessage" Placeholder="Enter a message" Text="{Binding EditMessageText}" IsEnabled="{Binding IsEditing}" />
+            <Button Text="{Binding IsEditing, Converter={StaticResource SendButtonConverter}}" Command="{Binding SendMessageCommand}" IsEnabled="{Binding IsEditing, Converter={StaticResource SendButtonConverter}}" />
         </StackLayout>
+
     </Grid>
 </ContentPage>
-
 

@@ -18,6 +18,7 @@ namespace KoalitionAndroidClient.ViewModels.Chat
         private ObservableCollection<UserBasicInfo> _users;
         private GroupChatResponse _selectedGroupChat;
         public GroupChatResponse SelectedGroupChat { get; set; }
+        
 
         public ObservableCollection<ChatMessageResponse> Messages
         {
@@ -60,6 +61,21 @@ namespace KoalitionAndroidClient.ViewModels.Chat
             }
         }
 
+        private string _editMessage;
+        public string EditMessageText
+        {
+            get { return _editMessage; }
+            set
+            {
+                _editMessage = value;
+                OnPropertyChanged(nameof(EditMessageText));
+                IsEditing = !string.IsNullOrEmpty(_editMessage);
+            }
+        }
+
+
+
+
         public ObservableCollection<UserBasicInfo> Users
         {
             get { return _users; }
@@ -70,14 +86,92 @@ namespace KoalitionAndroidClient.ViewModels.Chat
             }
         }
 
+        private bool _isEditing;
+        public bool IsEditing
+        {
+            get { return _isEditing; }
+            set
+            {
+                _isEditing = value;
+                OnPropertyChanged(nameof(IsEditing));
+                OnPropertyChanged(nameof(EditMessageText));
+            }
+        }
+
+        private ChatMessageResponse _selectedMessage;
+        public ChatMessageResponse SelectedMessage
+        {
+            get { return _selectedMessage; }
+            set
+            {
+                _selectedMessage = value;
+                OnPropertyChanged(nameof(SelectedMessage));
+                IsEditing = (_selectedMessage != null);
+            }
+        }
+
         public ICommand SendMessageCommand { get;set; }
+        public ICommand EditMessageCommand { get; }
         public GroupChatPageViewModel(GroupChatResponse selectedGroupChat)
         {
-            SendMessageCommand = new Command<object>(async (param) => await SendMessage());
-            //_sendMessageText = new ObservableCollection<SendMessageRequest>();
+            //EditMessageCommand = new Command(async () => await EditSelectedMessage());
+            EditMessageCommand = new Command<ChatMessageResponse>(EditMessage);
+            SendMessageCommand = new Command(async () =>
+            {
+                if (IsEditing)
+                {
+                    // Edit the selected message
+                    await EditSelectedMessage();
+                }
+                else
+                {
+                    // Send a new message
+                    await SendMessage();
+                }
+            });
+
             _selectedGroupChat = selectedGroupChat;
             GetUsersAndMessages();
         }
+
+
+        public void EditMessage(ChatMessageResponse message)
+        {
+            // без этоуй хуйни выбранное сообщение пустое, с ней — выбраное и хз как его изменить
+            EditMessageText = message.Text;
+            SelectedMessage = message;
+            SelectedMessage.MessageId = message.MessageId;
+            IsEditing = true;
+        }
+
+        public async Task EditSelectedMessage()
+        {
+            using HttpClient httpClient = new HttpClient();
+            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", App.Token);
+
+
+            var GroupChatId = _selectedGroupChat.Id;
+            var MessageId = SelectedMessage.MessageId;
+                //Text = EditMessageText, // Use the updated message text from the view model
+            
+            var text = EditMessageText;
+
+            var message = new SendMessageRequest { Text = text };
+            var messageJson = JsonConvert.SerializeObject(message);
+            var content = new StringContent(messageJson, Encoding.UTF8, "application/json");
+            var response = await httpClient.PutAsync($"http://10.0.2.2:5127/api/groupchats/{_selectedGroupChat.Id}/messages/{SelectedMessage.MessageId}", content);
+
+            if (response.IsSuccessStatusCode)
+            {
+                // Clear the EditMessageText property
+                EditMessageText = string.Empty;
+                SelectedMessage = null;
+                IsEditing = false;
+                await GetUsersAndMessages();
+            }
+        }
+
+
 
         public async Task GetUsersAndMessages()
         {
@@ -110,9 +204,11 @@ namespace KoalitionAndroidClient.ViewModels.Chat
             Messages = new ObservableCollection<ChatMessageResponse>(messages);
         }
         
-        //юзануть этот принцип в создании чата
+
         public async Task SendMessage()
         {
+            
+
             using HttpClient httpClient = new HttpClient();
             httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", App.Token);
             var message = new SendMessageRequest
@@ -127,11 +223,12 @@ namespace KoalitionAndroidClient.ViewModels.Chat
             {
                 // Clear the NewMessage property
                 NewMessage = string.Empty;
-
-                // Refresh the messages
                 await GetUsersAndMessages();
             }
+
         }
+
+        
     }
 }
 
