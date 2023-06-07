@@ -10,21 +10,16 @@
     xmlns:chat="clr-namespace:KoalitionAndroidClient.Views.Chat"
     xmlns:addChatPage="clr-namespace:KoalitionAndroidClient.Views.AddGroupChatPage">
 
+
     <ShellContent
         Title="Login Page" FlyoutItemIsVisible="False" Shell.FlyoutBehavior="Disabled"
         ContentTemplate="{DataTemplate startupPages:LoginPage}"
         Route="LoginPage" />
 
-    
-
     <ShellContent
         Title="Menu Page"
         ContentTemplate="{DataTemplate menuPages:MenuPage}"
         Route="MenuPage" />
-
-    
-
-
 
     <ShellContent
         Title="GroupChatPage" FlyoutItemIsVisible="False"
@@ -35,6 +30,11 @@
         Title="AddGroupChatPage" FlyoutItemIsVisible="False"
         ContentTemplate="{DataTemplate addChatPage:AddGroupChatPage}"
         Route="AddGroupChatPage" />
+
+    <ShellContent
+        Title="PrivateChatPage" FlyoutItemIsVisible="False"
+        ContentTemplate="{DataTemplate chat:PrivateChatPage}"
+        Route="PrivateChatPage" />
 
 
     <Shell.FlyoutFooter>

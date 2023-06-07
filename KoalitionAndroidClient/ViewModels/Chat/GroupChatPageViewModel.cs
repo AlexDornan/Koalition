@@ -175,12 +175,6 @@ namespace KoalitionAndroidClient.ViewModels.Chat
 
         public async Task GetUsersAndMessages()
         {
-            if (_selectedGroupChat == null)
-            {
-                Console.WriteLine("Error: SelectedGroupChat is null.");
-                return;
-            }
-
             using HttpClient httpClient = new HttpClient();
             httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", App.Token);
 

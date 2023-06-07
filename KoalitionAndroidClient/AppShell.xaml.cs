@@ -1,5 +1,6 @@
 ﻿using KoalitionAndroidClient.ViewModels;
 using KoalitionAndroidClient.Views.AddGroupChatPage;
+using KoalitionAndroidClient.Views.Chat;
 using KoalitionAndroidClient.Views.Menu;
 
 namespace KoalitionAndroidClient
@@ -15,6 +16,7 @@ namespace KoalitionAndroidClient
             
             Routing.RegisterRoute("MenuPage", typeof(MenuPage));
             Routing.RegisterRoute("AddGroupChatPage", typeof(AddGroupChatPage));
+            Routing.RegisterRoute("PrivateChatPage", typeof(PrivateChatPage));
         }
     }
 }

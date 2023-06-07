@@ -36,12 +36,14 @@ namespace KoalitionAndroidClient
             builder.Services.AddSingleton<ChatMessageResponse>();
             builder.Services.AddSingleton<UserBasicInfo>();
             builder.Services.AddSingleton<AddGroupChatPage>();
+            builder.Services.AddSingleton<GroupChatPage>();
 
 
 
             builder.Services.AddSingleton<LoginPageViewModel>();
             builder.Services.AddSingleton<MenuPageViewModel>();
             builder.Services.AddSingleton<GroupChatResponse>();
+            builder.Services.AddSingleton<GroupChatPageViewModel>();
             builder.Services.AddSingleton<GroupChatPageViewModel>();
             builder.Services.AddSingleton<AddGroupChatPageViewModel>();
             

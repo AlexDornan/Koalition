@@ -3,25 +3,39 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="KoalitionAndroidClient.Views.Menu.MenuPage"
              Title="MenuPage">
-    <StackLayout Padding="10">
-        <Label FontSize="18" Text="Welcome to Koalition" HorizontalOptions="Center"/>
+    <ScrollView>
+        <StackLayout Padding="10">
+            <Label FontSize="18" Text="Welcome to Koalition" HorizontalOptions="Center"/>
 
-        <Button Text="Create Chat" Command="{Binding EnterCreateGroupChatCommand}" HorizontalOptions="Center" />
+            <Button Text="Create Chat" Command="{Binding EnterCreateGroupChatCommand}" HorizontalOptions="Center" />
 
-        <CollectionView ItemsSource="{Binding GroupChats}" x:Name="collectionView">
-            <CollectionView.ItemTemplate>
-                <DataTemplate>
-                    <StackLayout Padding="10">
-                        <HorizontalStackLayout>
+            <CollectionView ItemsSource="{Binding GroupChats}" x:Name="groupCollectionView">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <StackLayout Padding="10">
                             <Button
-                        Text="{Binding Name}"
-                        Command="{Binding BindingContext.EnterChatCommand, Source={x:Reference collectionView}}"
-                        CommandParameter="{Binding .}"
-                        HorizontalOptions="Center" />
-                        </HorizontalStackLayout>
-                    </StackLayout>
-                </DataTemplate>
-            </CollectionView.ItemTemplate>
-        </CollectionView>
-    </StackLayout>
+                                Text="{Binding Name}"
+                                Command="{Binding BindingContext.EnterChatCommand, Source={x:Reference groupCollectionView}}"
+                                CommandParameter="{Binding .}"
+                                HorizontalOptions="Center" />
+                        </StackLayout>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
+            <CollectionView ItemsSource="{Binding Users}" x:Name="userCollectionView">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <StackLayout Padding="10">
+                            <Button
+                                Text="{Binding Name}"
+                                Command="{Binding BindingContext.EnterPrivateChatCommand, Source={x:Reference userCollectionView}}"
+                                CommandParameter="{Binding .}"
+                                HorizontalOptions="Center" />
+                        </StackLayout>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </StackLayout>
+    </ScrollView>
 </ContentPage>
