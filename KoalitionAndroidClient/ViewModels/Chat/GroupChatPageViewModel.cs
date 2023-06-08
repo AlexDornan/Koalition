@@ -1,4 +1,5 @@
-﻿using KoalitionAndroidClient.Models;
+﻿using KoalitionAndroidClient.Helpers;
+using KoalitionAndroidClient.Models;
 using KoalitionAndroidClient.Services;
 using Newtonsoft.Json;
 using System;
@@ -73,9 +74,6 @@ namespace KoalitionAndroidClient.ViewModels.Chat
             }
         }
 
-
-
-
         public ObservableCollection<UserBasicInfo> Users
         {
             get { return _users; }
@@ -137,7 +135,6 @@ namespace KoalitionAndroidClient.ViewModels.Chat
 
         public void EditMessage(ChatMessageResponse message)
         {
-            // без этоуй хуйни выбранное сообщение пустое, с ней — выбраное и хз как его изменить
             EditMessageText = message.Text;
             SelectedMessage = message;
             SelectedMessage.MessageId = message.MessageId;
@@ -179,11 +176,11 @@ namespace KoalitionAndroidClient.ViewModels.Chat
             httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", App.Token);
 
             // Get all users
-            var usersResponse = await httpClient.GetAsync("http://10.0.2.2:5127/api/Users/allUsers");
+            var usersResponse = await httpClient.GetAsync($"{ApiPlatformUrlHelper.GetPlatformApiUrl()}/api/Users/allUsers");
             var usersJson = await usersResponse.Content.ReadAsStringAsync();
             var users = JsonConvert.DeserializeObject<List<UserBasicInfo>>(usersJson);
 
-            var messagesResponse = await httpClient.GetAsync($"http://10.0.2.2:5127/api/groupchats/{_selectedGroupChat.Id}/messages");
+            var messagesResponse = await httpClient.GetAsync($"{ApiPlatformUrlHelper.GetPlatformApiUrl()}/api/groupchats/{_selectedGroupChat.Id}/messages");
             var messagesJson = await messagesResponse.Content.ReadAsStringAsync();
             var messages = JsonConvert.DeserializeObject<List<ChatMessageResponse>>(messagesJson);
 
@@ -212,7 +209,7 @@ namespace KoalitionAndroidClient.ViewModels.Chat
             };
             var messageJson = JsonConvert.SerializeObject(message);
             var content = new StringContent(messageJson, Encoding.UTF8, "application/json");
-            var response = await httpClient.PostAsync($"http://10.0.2.2:5127/api/groupchats/{_selectedGroupChat.Id}/messages/sendMessage", content);
+            var response = await httpClient.PostAsync($"{ApiPlatformUrlHelper.GetPlatformApiUrl()}/api/groupchats/{_selectedGroupChat.Id}/messages/sendMessage", content);
             if (response.IsSuccessStatusCode)
             {
                 // Clear the NewMessage property

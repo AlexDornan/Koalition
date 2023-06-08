@@ -1,4 +1,5 @@
 ﻿using KoalitionAndroidClient.Controls;
+using KoalitionAndroidClient.Helpers;
 using KoalitionAndroidClient.Models;
 using KoalitionAndroidClient.Services;
 using KoalitionAndroidClient.ViewModels.Chat;
@@ -115,7 +116,7 @@ namespace KoalitionAndroidClient.ViewModels.Menu
             using HttpClient httpClient = new HttpClient();
             httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", App.Token);
 
-            var response = await httpClient.GetAsync("http://10.0.2.2:5127/api/Users/allUsers");
+            var response = await httpClient.GetAsync($"{ApiPlatformUrlHelper.GetPlatformApiUrl()}/api/Users/allUsers");
 
             if (response.IsSuccessStatusCode)
             {

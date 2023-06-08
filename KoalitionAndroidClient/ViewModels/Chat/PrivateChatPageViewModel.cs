@@ -1,3 +1,4 @@
+using KoalitionAndroidClient.Helpers;
 using KoalitionAndroidClient.Models;
 using Newtonsoft.Json;
 using System.Collections.ObjectModel;
@@ -70,7 +71,7 @@ public class PrivateChatPageViewModel : BaseViewModel
         };
         var messageJson = JsonConvert.SerializeObject(message);
         var content = new StringContent(messageJson, Encoding.UTF8, "application/json");
-        var response = await httpClient.PostAsync($"http://10.0.2.2:5127/api/privatechats/sendMessage?recipientId={_selectedUser.UserId}", content);
+        var response = await httpClient.PostAsync($"{ApiPlatformUrlHelper.GetPlatformApiUrl()}/api/privatechats/sendMessage?recipientId={_selectedUser.UserId}", content);
         if (response != null)
         {
             // Update the UI or perform any necessary actions
@@ -84,7 +85,7 @@ public class PrivateChatPageViewModel : BaseViewModel
         using HttpClient httpClient = new HttpClient();
         httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", App.Token);
 
-        var response = await httpClient.GetAsync($"http://10.0.2.2:5127/api/privatechats?recipientId={_selectedUser.UserId}");
+        var response = await httpClient.GetAsync($"{ApiPlatformUrlHelper.GetPlatformApiUrl()}/api/privatechats?recipientId={_selectedUser.UserId}");
         var privateChatJson = await response.Content.ReadAsStringAsync();
         var usersAndMessages = JsonConvert.DeserializeObject<List<ChatMessageResponse>>(privateChatJson);
 

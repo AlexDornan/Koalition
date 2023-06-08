@@ -1,4 +1,5 @@
-﻿using KoalitionAndroidClient.Models;
+﻿using KoalitionAndroidClient.Helpers;
+using KoalitionAndroidClient.Models;
 using KoalitionAndroidClient.ViewModels.Menu;
 using KoalitionAndroidClient.Views.Menu;
 using Newtonsoft.Json;
@@ -64,7 +65,7 @@ namespace KoalitionAndroidClient.ViewModels.AddGroupChatPageViewModel
 
             var groupChatJson = JsonConvert.SerializeObject(groupChat);
             var content = new StringContent(groupChatJson, Encoding.UTF8, "application/json");
-            var response = await client.PostAsync("http://10.0.2.2:5127/api/GroupChat/createGroupChat", content);
+            var response = await client.PostAsync($"{ApiPlatformUrlHelper.GetPlatformApiUrl()}/api/GroupChat/createGroupChat", content);
 
             await Shell.Current.GoToAsync("///MenuPage");
             if (Application.Current.MainPage is MenuPage menuPage && menuPage.BindingContext is MenuPageViewModel menuViewModel)

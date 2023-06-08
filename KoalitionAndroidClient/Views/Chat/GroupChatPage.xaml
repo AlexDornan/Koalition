@@ -43,8 +43,8 @@
        
         
         <StackLayout Grid.Row="1" Padding="10">
-            <Entry x:Name="entryMessage" Placeholder="Enter a message" Text="{Binding EditMessageText}" IsEnabled="{Binding IsEditing}" />
-            <Button Text="{Binding IsEditing, Converter={StaticResource SendButtonConverter}}" Command="{Binding SendMessageCommand}" IsEnabled="{Binding IsEditing, Converter={StaticResource SendButtonConverter}}" />
+            <Entry Placeholder="Enter a message" Text="{Binding NewMessage}" />
+            <Button Text="Send" Command="{Binding SendMessageCommand}" />
         </StackLayout>
 
     </Grid>
