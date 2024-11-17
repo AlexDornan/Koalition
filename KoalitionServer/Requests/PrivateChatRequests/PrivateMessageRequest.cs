@@ -1,4 +1,4 @@
-﻿namespace KoalitionServer.Requests.PrivateChatRequests
+﻿namespace Server.Requests.PrivateChatRequests
 {
     public class PrivateMessageRequest
     {

@@ -1,4 +1,4 @@
-﻿namespace KoalitionServer.Responses.PrivateChatResponses
+﻿namespace Server.Responses.PrivateChatResponses
 {
     public class PrivateMessageResponse
     {

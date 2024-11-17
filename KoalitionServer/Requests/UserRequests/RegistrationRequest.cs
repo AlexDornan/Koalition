@@ -1,4 +1,6 @@
-﻿namespace KoalitionServer.Requests.UserRequests
+﻿using System.Text.Json.Serialization;
+
+namespace Server.Requests.UserRequests
 {
     public class RegistrationRequest
     {

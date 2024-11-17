@@ -1,4 +1,4 @@
-﻿namespace KoalitionServer.Responses.UserResponses
+﻿namespace Server.Responses.UserResponses
 {
     public class AuthenticatedUserResponse
     {

@@ -2,7 +2,7 @@
 
 #nullable disable
 
-namespace KoalitionServer.Migrations
+namespace Server.Migrations
 {
     public partial class priv8 : Migration
     {

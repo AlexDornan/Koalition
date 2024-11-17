@@ -1,9 +1,6 @@
-﻿using KoalitionServer.Responses.UserResponses;
-using MediatR;
-
-namespace KoalitionServer.Requests.UserRequests
+﻿namespace Server.Requests.UserRequests
 {
-    public class CurrentUserRequestDTO : IRequest<CurrentUserResponseDTO>
+    public class CurrentUserRequestDTO
     {
         public CurrentUserRequestDTO(string login)
         {

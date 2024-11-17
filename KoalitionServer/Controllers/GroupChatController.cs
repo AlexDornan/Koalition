@@ -1,41 +1,38 @@
-﻿using KoalitionServer.Requests.GroupChatRequests;
-using KoalitionServer.Services.GroupChatServices;
-using MediatR;
+﻿using Server.Requests.GroupChatRequests;
+using Server.Services.GroupChatServices;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace KoalitionServer.Controllers
+namespace Server.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
     public class GroupChatController : ControllerBase
     {
-        private readonly IMediator _mediator;
         private readonly GetCurrentUserGroupChatsService _getCurrentUserGroupChatsService;
         private readonly DeleteGroupChatorUserService _deleteGroupChatorUserService;
 
-        public GroupChatController(IMediator mediator, GetCurrentUserGroupChatsService getAllGroupChatsService, DeleteGroupChatorUserService deleteGroupChatorUserService)
+        public GroupChatController(GetCurrentUserGroupChatsService getAllGroupChatsService, DeleteGroupChatorUserService deleteGroupChatorUserService)
         {
-            _mediator = mediator;
             _getCurrentUserGroupChatsService = getAllGroupChatsService;
             _deleteGroupChatorUserService = deleteGroupChatorUserService;
         }
 
-        [HttpPost("createGroupChat")]
-        [Authorize]
-        public async Task<ActionResult<string>> CreateGroupChat(CreateGroupChatRequest request)
-        {
-            var chatName = await _mediator.Send(request);
-            return chatName;
-        }
+        //[HttpPost("createGroupChat")]
+        //[Authorize]
+        //public async Task<ActionResult<string>> CreateGroupChat(CreateGroupChatRequest request)
+        //{
+        //    var chatName = await _mediator.Send(request);
+        //    return chatName;
+        //}
         
-        [HttpPost("addUser")]
-        [Authorize]
-        public async Task<ActionResult<bool>> AddUserToGroupChat(AddUserToGroupChatRequest request)
-        {
-            var result = await _mediator.Send(request);
-            return result;
-        }
+        //[HttpPost("addUser")]
+        //[Authorize]
+        //public async Task<ActionResult<bool>> AddUserToGroupChat(AddUserToGroupChatRequest request)
+        //{
+        //    var result = await _mediator.Send(request);
+        //    return result;
+        //}
 
         [HttpGet("getChats")]
         [Authorize]

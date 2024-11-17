@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using KoalitionServer.Models;
+using Server.Models;
 
-namespace KoalitionServer.Data
+namespace Server.Data
 {
     public class AppDbContext : DbContext
     {

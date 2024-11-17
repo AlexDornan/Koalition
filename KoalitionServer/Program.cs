@@ -1,6 +1,5 @@
-using KoalitionServer.Data;
-//using KoalitionServer.Hubs;
-using KoalitionServer.Models;
+using Server.Data;
+using Server.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -8,20 +7,16 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.Filters;
 using System.Text;
-using MediatR;
-using KoalitionServer.Services.UserServices;
-using KoalitionServer.Services.GroupChatServices;
-using KoalitionServer.Services.GroupMessagesServices;
-using System.Net.Http.Headers;
-using KoalitionServer.Services.PrivateChatServices;
+using Server.Services.UserServices;
+using Server.Services.GroupChatServices;
+using Server.Services.GroupMessagesServices;
+using Server.Services.PrivateChatServices;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddControllers();
-//builder.Services.AddSignalR();
-builder.Services.AddMediatR(typeof(Program));
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddScoped<UserService>();

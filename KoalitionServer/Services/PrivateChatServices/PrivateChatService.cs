@@ -1,11 +1,11 @@
-﻿using KoalitionServer.Data;
-using KoalitionServer.Models;
-using KoalitionServer.Responses.GroupMessageResponses;
+﻿using Server.Data;
+using Server.Models;
+using Server.Responses.GroupMessageResponses;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
 using System.Security.Policy;
 
-namespace KoalitionServer.Services.PrivateChatServices
+namespace Server.Services.PrivateChatServices
 {
     public class PrivateChatService
     {

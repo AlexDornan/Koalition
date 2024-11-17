@@ -1,4 +1,4 @@
-﻿namespace KoalitionServer.Requests.UserRequests
+﻿namespace Server.Requests.UserRequests
 {
     public class AuthenticateRequest
     {

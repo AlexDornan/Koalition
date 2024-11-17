@@ -1,12 +1,11 @@
-﻿using KoalitionServer.Data;
-using KoalitionServer.Models;
-using KoalitionServer.Requests.GroupChatRequests;
-using MediatR;
+﻿using Server.Data;
+using Server.Models;
+using Server.Requests.GroupChatRequests;
 using Microsoft.EntityFrameworkCore;
 
-namespace KoalitionServer.Services.GroupChatServices
+namespace Server.Services.GroupChatServices
 {
-    public class AddUserToGroupChatService : IRequestHandler<AddUserToGroupChatRequest, bool>
+    public class AddUserToGroupChatService
     {
         private readonly AppDbContext _context;
 

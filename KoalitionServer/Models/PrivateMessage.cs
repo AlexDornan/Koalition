@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace KoalitionServer.Models
+namespace Server.Models
 {
     public class PrivateMessage
     {   

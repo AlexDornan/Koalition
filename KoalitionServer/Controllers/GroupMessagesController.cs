@@ -1,10 +1,10 @@
-﻿using KoalitionServer.Services.GroupMessagesServices;
+﻿using Server.Services.GroupMessagesServices;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using KoalitionServer.Requests.GroupMessageRequests;
-using KoalitionServer.Responses.GroupMessageResponses;
+using Server.Requests.GroupMessageRequests;
+using Server.Responses.GroupMessageResponses;
 
-namespace KoalitionServer.Controllers
+namespace Server.Controllers
 {
     [ApiController]
     [Route("api/groupchats/{groupChatId}/messages")]

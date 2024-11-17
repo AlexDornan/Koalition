@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace KoalitionServer.Migrations
+namespace Server.Migrations
 {
     public partial class privateMessage4 : Migration
     {

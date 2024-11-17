@@ -1,4 +1,4 @@
-﻿namespace KoalitionServer.Models
+﻿namespace Server.Models
 {
     public class GroupChatsToUsers
     {

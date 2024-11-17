@@ -1,8 +1,6 @@
-﻿using MediatR;
-
-namespace KoalitionServer.Requests.UserRequests
+﻿namespace Server.Requests.UserRequests
 {
-    public class DeleteCurrentUserRequest : IRequest<bool>
+    public class DeleteCurrentUserRequest
     {
         public string Login { get; set; }
 

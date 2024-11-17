@@ -1,8 +1,6 @@
-﻿using MediatR;
-
-namespace KoalitionServer.Requests.GroupChatRequests
+﻿namespace Server.Requests.GroupChatRequests
 {
-    public class CreateGroupChatRequest:IRequest<string>
+    public class CreateGroupChatRequest
     {
         public string Name { get; set; }
         public string Description { get; set; }

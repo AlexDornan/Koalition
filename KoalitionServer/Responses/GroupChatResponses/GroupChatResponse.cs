@@ -1,4 +1,4 @@
-﻿namespace KoalitionServer.Responses.GroupChatResponses
+﻿namespace Server.Responses.GroupChatResponses
 {
     public class GroupChatResponse
     {

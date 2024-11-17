@@ -1,17 +1,14 @@
-﻿using KoalitionServer.Data;
-using KoalitionServer.Models;
-using KoalitionServer.Requests.UserRequests;
-using KoalitionServer.Responses.UserResponses;
-using Microsoft.AspNetCore.Authorization;
+﻿using Server.Data;
+using Server.Models;
+using Server.Requests.UserRequests;
+using Server.Responses.UserResponses;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
-using Microsoft.VisualStudio.Web.CodeGenerators.Mvc;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 
-namespace KoalitionServer.Services.UserServices
+namespace Server.Services.UserServices
 {
     public class UserService
     {
@@ -92,6 +89,46 @@ namespace KoalitionServer.Services.UserServices
             string token = CreateToken(user);
 
             return new AuthenticateResponse { Token = token, UserDetails = userDetails };
+        }
+
+        public async Task<User> GetCurrentAuthenticatedUser()
+        {
+            var currentUserLogin = _httpContextAccessor.HttpContext?.User?.Claims
+                ?.FirstOrDefault(x => x.Type == ClaimTypes.Name)?.Value;
+
+            if (string.IsNullOrEmpty(currentUserLogin))
+            {
+                throw new UnauthorizedAccessException("User is not authenticated.");
+            }
+
+            var user = await _context.Users.FirstOrDefaultAsync(x => x.Login == currentUserLogin);
+
+            if (user == null)
+            {
+                throw new ArgumentException("Authenticated user not found in the database.");
+            }
+
+            return user;
+        }
+
+        public string GetCurrentUserLogin()
+        {
+            var currentUserLogin = _httpContextAccessor.HttpContext?.User?.Claims
+                ?.FirstOrDefault(x => x.Type == ClaimTypes.Name)?.Value;
+
+            return currentUserLogin;
+        }
+
+        public async Task<bool> DeleteCurrentUserAsync()
+        {
+            var currentUserLogin = GetCurrentUserLogin();
+
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Login == currentUserLogin);
+
+            _context.Users.Remove(user);
+            await _context.SaveChangesAsync();
+
+            return true; 
         }
 
         private string CreateToken(User user)

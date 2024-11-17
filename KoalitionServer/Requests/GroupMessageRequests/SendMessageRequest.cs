@@ -1,4 +1,4 @@
-﻿namespace KoalitionServer.Requests.GroupMessageRequests
+﻿namespace Server.Requests.GroupMessageRequests
 {
     public class SendMessageRequest
     {

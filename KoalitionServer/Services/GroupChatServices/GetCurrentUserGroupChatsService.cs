@@ -1,9 +1,9 @@
-﻿using KoalitionServer.Data;
-using KoalitionServer.Responses.GroupChatResponses;
+﻿using Server.Data;
+using Server.Responses.GroupChatResponses;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
 
-namespace KoalitionServer.Services.GroupChatServices
+namespace Server.Services.GroupChatServices
 {
     public class GetCurrentUserGroupChatsService
     {

@@ -1,11 +1,10 @@
-﻿using KoalitionServer.Data;
-using KoalitionServer.Requests.UserRequests;
-using MediatR;
+﻿using Server.Data;
+using Server.Requests.UserRequests;
 using Microsoft.EntityFrameworkCore;
 
-namespace KoalitionServer.Services.UserServices
+namespace Server.Services.UserServices
 {
-    public class DeleteCurrentUserService : IRequestHandler<DeleteCurrentUserRequest, bool>
+    public class DeleteCurrentUserService
     {
         private readonly AppDbContext _context;
 

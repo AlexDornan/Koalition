@@ -1,10 +1,10 @@
-﻿using KoalitionServer.Models;
+﻿using Server.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Data;
 using System.Xml.Linq;
 
-namespace KoalitionServer.Controllers
+namespace Server.Controllers
 {
     [ApiController]
     [Route("[controller]")]

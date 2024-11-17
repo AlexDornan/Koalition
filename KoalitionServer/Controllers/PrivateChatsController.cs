@@ -1,13 +1,13 @@
-﻿using KoalitionServer.Requests.PrivateChatRequests;
-using KoalitionServer.Responses.GroupMessageResponses;
-using KoalitionServer.Responses.PrivateChatResponses;
-using KoalitionServer.Services.GroupMessagesServices;
-using KoalitionServer.Services.PrivateChatServices;
+﻿using Server.Requests.PrivateChatRequests;
+using Server.Responses.GroupMessageResponses;
+using Server.Responses.PrivateChatResponses;
+using Server.Services.GroupMessagesServices;
+using Server.Services.PrivateChatServices;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-namespace KoalitionServer.Controllers
+namespace Server.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
